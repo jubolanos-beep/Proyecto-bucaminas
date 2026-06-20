@@ -576,14 +576,144 @@ void asignar_casillas_16x30(int matriz_1[16][30]){
 	}
 }
 void reimprimir_matriz(char matriz[8][8]){
+	cout<<"  "<<"A"<<" "<<"B"<<" "<<"C"<<" "<<"D"<<" "<<"E"<<" "<<"F"<<" "<<"G"<<" "<<"H"<<endl;
+	cout<<"1 ";
 	for (int i=0; i<8; i++){
-			for (int j=0; j<8; j++){
-				cout<<matriz[i][j]<<" ";
-			}
-			cout<<endl;
-		}
+		cout<<matriz[0][i]<<" ";
+	}	
+	cout<<endl;	
+	cout<<"2 ";
+	for (int i=0; i<8; i++){
+		cout<<matriz[1][i]<<" ";
+	}
+	cout<<endl;	
+	cout<<"3 ";
+	for (int i=0; i<8; i++){
+		cout<<matriz[2][i]<<" ";
+	}	
+	cout<<endl;	
+	cout<<"4 ";	
+	for (int i=0; i<8; i++){
+		cout<<matriz[3][i]<<" ";
+	}
+	cout<<endl;	
+	cout<<"5 ";		
+	for (int i=0; i<8; i++){
+		cout<<matriz[4][i]<<" ";
+	}	
+	cout<<endl;		
+	cout<<"6 ";
+	for (int i=0; i<8; i++){
+		cout<<matriz[5][i]<<" ";
+	}	
+	cout<<endl;		
+	cout<<"7 ";
+	for (int i=0; i<8; i++){
+		cout<<matriz[6][i]<<" ";
+	}
+	cout<<endl;	
+	cout<<"8 ";		
+	for (int i=0; i<8; i++){
+		cout<<matriz[7][i]<<" ";
+	}		
 }
+//A continuación añadí una función recursiva que recorre la matriz y muestra los espacios adyacentes vacios: Si se oprime o muestra un 0, se mostrará todas las casillas adyacentes, de esta forma, todas las casillas son números distintos de 0 o números.
+void limpiar_casillas(char matriz[8][8], int matriz_int [8][8]){
+	for (int c=0; c<3; c++){
+		if (matriz[0][0]=='0'){
+			matriz[0][1]=matriz_int[0][1]+'0';
+			matriz[1][0]=matriz_int[1][0]+'0';
+			matriz[1][1]=matriz_int[1][1]+'0';
+		}
+		if (matriz[7][7]=='0'){
+			matriz[7][6]=matriz_int[7][6]+'0';
+			matriz[6][6]=matriz_int[6][6]+'0';
+			matriz[6][7]=matriz_int[6][7]+'0';
+		}
+		if (matriz[7][0]=='0'){
+			matriz[6][0]=matriz_int[0][1]+'0';
+			matriz[7][1]=matriz_int[1][0]+'0';
+			matriz[6][1]=matriz_int[1][1]+'0';
+		}
+		if (matriz[0][7]=='0'){
+			matriz[0][6]=matriz_int[0][1]+'0';
+			matriz[1][7]=matriz_int[1][0]+'0';
+			matriz[1][6]=matriz_int[1][1]+'0';
+		}
+		for (int i=1; i<7; i++){
+			if (matriz[0][i]=='0'){
+				matriz[0][i-1]=matriz_int[0][i-1]+'0';
+				matriz[0][i+1]=matriz_int[0][i+1]+'0';
+				matriz[1][i-1]=matriz_int[1][i-1]+'0';
+				matriz[1][i+1]=matriz_int[1][i+1]+'0';
+				matriz[1][i]=matriz_int[1][i]+'0';
+			}
+		}
+		for (int i=1; i<7; i++){
+			if (matriz[7][i]=='0'){
+				matriz[7][i-1]=matriz_int[7][i-1]+'0';
+				matriz[7][i+1]=matriz_int[7][i+1]+'0';
+				matriz[6][i-1]=matriz_int[6][i-1]+'0';
+				matriz[6][i+1]=matriz_int[6][i+1]+'0';
+				matriz[6][i]=matriz_int[6][i]+'0';
+			}
+		}
+		for (int i=1; i<7; i++){
+			if (matriz[i][0]=='0'){
+				matriz[i-1][0]=matriz_int[i-1][0]+'0';
+				matriz[i+1][0]=matriz_int[i+1][0]+'0';
+				matriz[i-1][1]=matriz_int[i-1][1]+'0';
+				matriz[i+1][1]=matriz_int[i+1][1]+'0';
+				matriz[i][1]=matriz_int[i][1]+'0';
+			}
+		}
+		for (int i=1; i<7; i++){
+			if (matriz[i][7]=='0'){
+				matriz[i-1][7]=matriz_int[i-1][7]+'0';
+				matriz[i+1][7]=matriz_int[i+1][7]+'0';
+				matriz[i-1][6]=matriz_int[i-1][6]+'0';
+				matriz[i+1][6]=matriz_int[i+1][6]+'0';
+				matriz[i][6]=matriz_int[i][6]+'0';
+			}
+		}
+		for (int i=1; i<7; i++){
+			for(int j=1; j<7; j++){
+				if(matriz[i][j]=='0'){
+					matriz[i][j+1]=matriz_int[i][j+1]+'0';
+					matriz[i][j-1]=matriz_int[i][j-1]+'0';
+					matriz[i-1][j-1]=matriz_int[i-1][j-1]+'0';
+					matriz[i+1][j-1]=matriz_int[i+1][j-1]+'0';
+				    matriz[i+1][j]=matriz_int[i+1][j]+'0';
+	           	 	matriz[i-1][j+1]=matriz_int[i-1][j+1]+'0';
+					matriz[i+1][j+1]=matriz_int[i+1][j+1]+'0';
+					matriz[i-1][j]=matriz_int[i-1][j]+'0';
+				}
+			}
+		}
+	}
+}
+/*void mostrar_minas(char arr[8][8]){
+	for (int i=0; i<8; i++){
+		for(int j=0; j<8; j++){
+			if(arr[i][j]=='9'){
+				arr[i][j]='M';
+			}
+		}
+	}
+	reimprimir_matriz(arr);
+}*/
 int main (){
+	cout<<"Este es un buscaminas de 8x8, contiene 10 minas, escribir una coordenada para destapar la casilla"<<endl;
+	cout<<"Sistema coordenado: "<<endl;
+	cout<<"  "<<"A"<<" "<<"B"<<" "<<"C"<<" "<<"D"<<" "<<"E"<<" "<<"F"<<" "<<"G"<<" "<<"H"<<endl;
+	cout<<"1"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+	cout<<"2"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+	cout<<"3"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+	cout<<"4"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+	cout<<"5"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+	cout<<"6"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+	cout<<"7"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+	cout<<"8"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
 	matriz_num_aleatorio(8,8);
 	asignar_casillas_8x8(matriz_random_10_minas);
 	//Declaro booleano para acabar la partida cuando se gane o se pierda.
@@ -602,6 +732,7 @@ int main (){
 	//Dentro de este ciclo se piden las jugadas del usuario
 	while (cerrar_ciclo_8x8==false){
 		string jugada;
+		cout<<endl<<endl<<"Escriba una casilla: ";
 		cin>>jugada;
 		//Instructivo si el usuario ingresa coordenadas no válidas
 		if (jugada!="A1" && jugada!="A2" && jugada!="A3" && jugada!="A4" && jugada!="A5" && jugada!="A6" && jugada!="A7" && jugada!="A8"&&
@@ -609,283 +740,1245 @@ int main (){
 			jugada!="C1" && jugada!="C2" && jugada!="C3" && jugada!="C4" && jugada!="C5" && jugada!="C6" && jugada!="C7" && jugada!="C8"&&
 			jugada!="D1" && jugada!="D2" && jugada!="D3" && jugada!="D4" && jugada!="D5" && jugada!="D6" && jugada!="D7" && jugada!="D8"&&
 			jugada!="E1" && jugada!="E2" && jugada!="E3" && jugada!="E4" && jugada!="E5" && jugada!="E6" && jugada!="E7" && jugada!="E8"&&
-			jugada!="F1" && jugada!="D2" && jugada!="F3" && jugada!="F4" && jugada!="F5" && jugada!="F6" && jugada!="F7" && jugada!="F8"&&
-			jugada!="G1" && jugada!="F2" && jugada!="G3" && jugada!="G4" && jugada!="G5" && jugada!="G6" && jugada!="G7" && jugada!="G8"&&
-			jugada!="H1" && jugada!="G2" && jugada!="H3" && jugada!="H4" && jugada!="H5" && jugada!="H6" && jugada!="H7" && jugada!="H8"){
+			jugada!="F1" && jugada!="F2" && jugada!="F3" && jugada!="F4" && jugada!="F5" && jugada!="F6" && jugada!="F7" && jugada!="F8"&&
+			jugada!="G1" && jugada!="G2" && jugada!="G3" && jugada!="G4" && jugada!="G5" && jugada!="G6" && jugada!="G7" && jugada!="G8"&&
+			jugada!="H1" && jugada!="H2" && jugada!="H3" && jugada!="H4" && jugada!="H5" && jugada!="H6" && jugada!="H7" && jugada!="H8"){
 			cout<<"Casilla del tablero no valida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;
 		}
 		else{
 		//En estos condicionales se cambia el espacio de las matrices, dependiendo de la coordenada escrita.
 		//El +'0' que se ve al final de la segunda matriz indica que es un entero que se cambia a char para poder ingresarlo en la segunda matriz
 			if(jugada=="A1"){
-				matriz_char_10[0][0]=matriz_random_10_minas[0][0]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[0][0]!=9){
+					matriz_char_10[0][0]=matriz_random_10_minas[0][0]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="A2"){
-				matriz_char_10[1][0]=matriz_random_10_minas[1][0]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[1][0]!=9){
+					matriz_char_10[1][0]=matriz_random_10_minas[1][0]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="A3"){
-				matriz_char_10[2][0]=matriz_random_10_minas[2][0]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[2][0]!=9){
+					matriz_char_10[2][0]=matriz_random_10_minas[2][0]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="A4"){
-				matriz_char_10[3][0]=matriz_random_10_minas[3][0]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[3][0]!=9){
+					matriz_char_10[3][0]=matriz_random_10_minas[3][0]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="A5"){
-				matriz_char_10[4][0]=matriz_random_10_minas[4][0]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[4][0]!=9){
+					matriz_char_10[4][0]=matriz_random_10_minas[4][0]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="A6"){
-				matriz_char_10[5][0]=matriz_random_10_minas[5][0]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[5][0]!=9){
+					matriz_char_10[5][0]=matriz_random_10_minas[5][0]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="A7"){
-				matriz_char_10[6][0]=matriz_random_10_minas[6][0]+'0';
-				reimprimir_matriz(matriz_char_10);
-			}
+				if(matriz_random_10_minas[6][0]!=9){
+					matriz_char_10[6][0]=matriz_random_10_minas[6][0]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
+			}	
 			if(jugada=="A8"){
-				matriz_char_10[7][0]=matriz_random_10_minas[7][0]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[7][0]!=9){
+					matriz_char_10[7][0]=matriz_random_10_minas[7][0]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="B1"){
-				matriz_char_10[0][1]=matriz_random_10_minas[0][1]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[0][1]!=9){
+					matriz_char_10[0][1]=matriz_random_10_minas[0][1]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="B2"){
-				matriz_char_10[1][1]=matriz_random_10_minas[1][1]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[1][1]!=9){
+					matriz_char_10[1][1]=matriz_random_10_minas[1][1]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="B3"){
-				matriz_char_10[2][1]=matriz_random_10_minas[2][1]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[2][1]!=9){
+					matriz_char_10[2][1]=matriz_random_10_minas[2][1]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="B4"){
-				matriz_char_10[3][1]=matriz_random_10_minas[3][1]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[3][1]!=9){
+					matriz_char_10[3][1]=matriz_random_10_minas[3][1]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="B5"){
-				matriz_char_10[4][1]=matriz_random_10_minas[4][1]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[4][1]!=9){
+					matriz_char_10[4][1]=matriz_random_10_minas[4][1]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="B6"){
-				matriz_char_10[5][1]=matriz_random_10_minas[5][1]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[5][1]!=9){
+					matriz_char_10[5][1]=matriz_random_10_minas[5][1]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="B7"){
-				matriz_char_10[6][1]=matriz_random_10_minas[6][1]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[6][1]!=9){
+					matriz_char_10[6][1]=matriz_random_10_minas[6][1]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="B8"){
-				matriz_char_10[7][1]=matriz_random_10_minas[7][1]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[7][1]!=9){
+					matriz_char_10[7][1]=matriz_random_10_minas[7][1]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="C1"){
-				matriz_char_10[0][2]=matriz_random_10_minas[0][2]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[0][2]!=9){
+					matriz_char_10[0][2]=matriz_random_10_minas[0][2]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="C2"){
-				matriz_char_10[1][2]=matriz_random_10_minas[1][2]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[1][2]!=9){
+					matriz_char_10[1][2]=matriz_random_10_minas[1][2]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="C3"){
-				matriz_char_10[2][2]=matriz_random_10_minas[2][2]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[2][2]!=9){
+					matriz_char_10[2][2]=matriz_random_10_minas[2][2]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="C4"){
-				matriz_char_10[3][2]=matriz_random_10_minas[3][2]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[3][2]!=9){
+					matriz_char_10[3][2]=matriz_random_10_minas[3][2]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
+			
 			if(jugada=="C5"){
-				matriz_char_10[4][2]=matriz_random_10_minas[4][2]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[4][2]!=9){
+					matriz_char_10[4][2]=matriz_random_10_minas[4][2]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="C6"){
-				matriz_char_10[5][2]=matriz_random_10_minas[5][2]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[5][2]!=9){
+					matriz_char_10[5][2]=matriz_random_10_minas[5][2]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="C7"){
-				matriz_char_10[6][2]=matriz_random_10_minas[6][2]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[6][2]!=9){
+					matriz_char_10[6][2]=matriz_random_10_minas[6][2]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="C8"){
-				matriz_char_10[7][2]=matriz_random_10_minas[7][2]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[7][2]!=9){
+					matriz_char_10[7][2]=matriz_random_10_minas[7][2]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="D1"){
-				matriz_char_10[0][3]=matriz_random_10_minas[0][3]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[0][3]!=9){
+					matriz_char_10[0][3]=matriz_random_10_minas[0][3]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="D2"){
-				matriz_char_10[1][3]=matriz_random_10_minas[1][3]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[1][3]!=9){
+					matriz_char_10[1][3]=matriz_random_10_minas[1][3]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="D3"){
-				matriz_char_10[2][3]=matriz_random_10_minas[2][3]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[2][3]!=9){
+					matriz_char_10[2][3]=matriz_random_10_minas[2][3]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="D4"){
-				matriz_char_10[3][3]=matriz_random_10_minas[3][3]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[3][3]!=9){
+					matriz_char_10[3][3]=matriz_random_10_minas[3][3]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="D5"){
-				matriz_char_10[4][3]=matriz_random_10_minas[4][3]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[4][3]!=9){
+					matriz_char_10[4][3]=matriz_random_10_minas[4][3]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="D6"){
-				matriz_char_10[5][3]=matriz_random_10_minas[5][3]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[5][3]!=9){
+					matriz_char_10[5][3]=matriz_random_10_minas[5][3]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="D7"){
-				matriz_char_10[6][3]=matriz_random_10_minas[6][3]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[6][3]!=9){
+					matriz_char_10[6][3]=matriz_random_10_minas[6][3]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="D8"){
-				matriz_char_10[7][3]=matriz_random_10_minas[7][3]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[7][3]!=9){
+					matriz_char_10[7][3]=matriz_random_10_minas[7][3]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="E1"){
-				matriz_char_10[0][4]=matriz_random_10_minas[0][4]+'0';
-				reimprimir_matriz(matriz_char_10);
-			}
+				if(matriz_random_10_minas[0][4]!=9){
+					matriz_char_10[0][4]=matriz_random_10_minas[0][4]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
+			}	
 			if(jugada=="E2"){
-				matriz_char_10[1][4]=matriz_random_10_minas[1][4]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[1][4]!=9){
+					matriz_char_10[1][4]=matriz_random_10_minas[1][4]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="E3"){
-				matriz_char_10[2][4]=matriz_random_10_minas[2][4]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[2][4]!=9){
+					matriz_char_10[2][4]=matriz_random_10_minas[2][4]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="E4"){
-				matriz_char_10[3][4]=matriz_random_10_minas[3][4]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[3][4]!=9){
+					matriz_char_10[3][4]=matriz_random_10_minas[3][4]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="E5"){
-				matriz_char_10[4][4]=matriz_random_10_minas[4][4]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[4][4]!=9){
+					matriz_char_10[4][4]=matriz_random_10_minas[4][4]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="E6"){
-				matriz_char_10[5][4]=matriz_random_10_minas[5][4]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[5][4]!=9){
+					matriz_char_10[5][4]=matriz_random_10_minas[5][4]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="E7"){
-				matriz_char_10[6][4]=matriz_random_10_minas[6][4]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[6][4]!=9){
+					matriz_char_10[6][4]=matriz_random_10_minas[6][4]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="E8"){
-				matriz_char_10[7][4]=matriz_random_10_minas[7][4]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[7][4]!=9){
+					matriz_char_10[7][4]=matriz_random_10_minas[7][4]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="F1"){
-				matriz_char_10[0][5]=matriz_random_10_minas[0][5]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[0][5]!=9){
+					matriz_char_10[0][5]=matriz_random_10_minas[0][5]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="F2"){
-				matriz_char_10[1][5]=matriz_random_10_minas[1][5]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[1][5]!=9){
+					matriz_char_10[1][5]=matriz_random_10_minas[1][5]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="F3"){
-				matriz_char_10[2][5]=matriz_random_10_minas[2][5]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[2][5]!=9){
+					matriz_char_10[2][5]=matriz_random_10_minas[2][5]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="F4"){
-				matriz_char_10[3][5]=matriz_random_10_minas[3][5]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[3][5]!=9){
+					matriz_char_10[3][5]=matriz_random_10_minas[3][5]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="F5"){
-				matriz_char_10[4][5]=matriz_random_10_minas[4][5]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[4][5]!=9){
+					matriz_char_10[4][5]=matriz_random_10_minas[4][5]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="F6"){
-				matriz_char_10[5][5]=matriz_random_10_minas[5][5]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[5][5]!=9){
+					matriz_char_10[5][5]=matriz_random_10_minas[5][5]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="F7"){
-				matriz_char_10[6][5]=matriz_random_10_minas[6][5]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[6][5]!=9){
+					matriz_char_10[6][5]=matriz_random_10_minas[6][5]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="F8"){
-				matriz_char_10[7][5]=matriz_random_10_minas[7][5]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[7][5]!=9){
+					matriz_char_10[7][5]=matriz_random_10_minas[7][5]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="G1"){
-				matriz_char_10[0][6]=matriz_random_10_minas[0][6]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[0][6]!=9){
+					matriz_char_10[0][6]=matriz_random_10_minas[0][6]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="G2"){
-				matriz_char_10[1][6]=matriz_random_10_minas[1][6]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[1][6]!=9){
+					matriz_char_10[1][6]=matriz_random_10_minas[1][6]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="G3"){
-				matriz_char_10[2][6]=matriz_random_10_minas[2][6]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[2][6]!=9){
+					matriz_char_10[2][6]=matriz_random_10_minas[2][6]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="G4"){
-				matriz_char_10[3][6]=matriz_random_10_minas[3][6]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[3][6]!=9){
+					matriz_char_10[3][6]=matriz_random_10_minas[3][6]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="G5"){
-				matriz_char_10[4][6]=matriz_random_10_minas[4][6]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[4][6]!=9){
+					matriz_char_10[4][6]=matriz_random_10_minas[4][6]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="G6"){
-				matriz_char_10[5][6]=matriz_random_10_minas[5][6]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[5][6]!=9){
+					matriz_char_10[5][6]=matriz_random_10_minas[5][6]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="G7"){
-				matriz_char_10[6][6]=matriz_random_10_minas[6][6]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[6][6]!=9){
+					matriz_char_10[6][6]=matriz_random_10_minas[6][6]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="G8"){
-				matriz_char_10[7][6]=matriz_random_10_minas[7][6]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[7][6]!=9){
+					matriz_char_10[7][6]=matriz_random_10_minas[7][6]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="H1"){
-				matriz_char_10[0][7]=matriz_random_10_minas[0][7]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[0][7]!=9){
+					matriz_char_10[0][7]=matriz_random_10_minas[0][7]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="H2"){
-				matriz_char_10[1][7]=matriz_random_10_minas[1][7]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[1][7]!=9){
+					matriz_char_10[1][7]=matriz_random_10_minas[1][7]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="H3"){
-				matriz_char_10[2][7]=matriz_random_10_minas[2][7]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[2][7]!=9){
+					matriz_char_10[2][7]=matriz_random_10_minas[2][7]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="H4"){
-				matriz_char_10[3][7]=matriz_random_10_minas[3][7]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[3][7]!=9){
+					matriz_char_10[3][7]=matriz_random_10_minas[3][7]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="H5"){
-				matriz_char_10[4][7]=matriz_random_10_minas[4][7]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[4][7]!=9){
+					matriz_char_10[4][7]=matriz_random_10_minas[4][7]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="H6"){
-				matriz_char_10[5][7]=matriz_random_10_minas[5][7]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[5][7]!=9){
+					matriz_char_10[5][7]=matriz_random_10_minas[5][7]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="H7"){
-				matriz_char_10[6][7]=matriz_random_10_minas[6][7]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[6][7]!=9){
+					matriz_char_10[6][7]=matriz_random_10_minas[6][7]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 			if(jugada=="H8"){
-				matriz_char_10[7][7]=matriz_random_10_minas[7][7]+'0';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_random_10_minas[7][7]!=9){
+					matriz_char_10[7][7]=matriz_random_10_minas[7][7]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
 	}
 	//Este for indica que el programa para cuando se llena la matriz de caracteres
-		for (int i=0; i<8; i++){
-			for (int j=0; j<8; j++){
-				if (matriz_char_10[i][j]==matriz_random_10_minas[i][j]+'0'){
-					cerrar_ciclo_8x8=true;
-				}
-				else{
-				cerrar_ciclo_8x8=false;
-				break;
+		if(cerrar_ciclo_8x8==false){
+			for (int i=0; i<8; i++){
+				for (int j=0; j<8; j++){
+					if (matriz_char_10[i][j]==matriz_random_10_minas[i][j]+'0'){
+						cerrar_ciclo_8x8=true;
+					}
+					else{
+					cerrar_ciclo_8x8=false;
+					break;
+					}
 				}
 			}
 		}
 	}
 }
-
