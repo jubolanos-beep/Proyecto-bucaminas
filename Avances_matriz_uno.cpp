@@ -757,17 +757,7 @@ int main (){
 		cout<<endl<<endl<<"Escriba una casilla: ";
 		cin>>jugada;
 		//Instructivo si el usuario ingresa coordenadas no válidas
-		if (jugada!="A1" && jugada!="A2" && jugada!="A3" && jugada!="A4" && jugada!="A5" && jugada!="A6" && jugada!="A7" && jugada!="A8"&&
-		    jugada!="B1" && jugada!="B2" && jugada!="B3" && jugada!="B4" && jugada!="B5" && jugada!="B6" && jugada!="B7" && jugada!="B8"&&
-			jugada!="C1" && jugada!="C2" && jugada!="C3" && jugada!="C4" && jugada!="C5" && jugada!="C6" && jugada!="C7" && jugada!="C8"&&
-			jugada!="D1" && jugada!="D2" && jugada!="D3" && jugada!="D4" && jugada!="D5" && jugada!="D6" && jugada!="D7" && jugada!="D8"&&
-			jugada!="E1" && jugada!="E2" && jugada!="E3" && jugada!="E4" && jugada!="E5" && jugada!="E6" && jugada!="E7" && jugada!="E8"&&
-			jugada!="F1" && jugada!="F2" && jugada!="F3" && jugada!="F4" && jugada!="F5" && jugada!="F6" && jugada!="F7" && jugada!="F8"&&
-			jugada!="G1" && jugada!="G2" && jugada!="G3" && jugada!="G4" && jugada!="G5" && jugada!="G6" && jugada!="G7" && jugada!="G8"&&
-			jugada!="H1" && jugada!="H2" && jugada!="H3" && jugada!="H4" && jugada!="H5" && jugada!="H6" && jugada!="H7" && jugada!="H8"){
-			cout<<"Casilla del tablero no valida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;
-		}
-		else{
+		if (((jugada[0]>='a' && jugada[0]<='h')||(jugada[0]>='A' && jugada[0]<='H'))&&(jugada[1]>='0' && jugada[1]<='8')){
 			switch(jugada[0]){
 				case 'A': pos_columna=0;
 					 break;
@@ -785,34 +775,59 @@ int main (){
 					break;
 				case 'H': pos_columna=7;
 					break;
+				case 'a': pos_columna=0;
+					 break;
+				case 'b': pos_columna=1;
+					break;
+				case 'c': pos_columna=2;
+					break;
+				case 'd': pos_columna=3;
+					break;
+				case 'e': pos_columna=4;
+					break;
+				case 'f': pos_columna=5;
+					break;
+				case 'g': pos_columna=6;
+					break;
+				case 'h': pos_columna=7;
+					break;
 			}
 			pos_fila=(jugada[1]-'0')-1;
 		//En estos condicionales se cambia el espacio de las matrices, dependiendo de la coordenada escrita.
 		//El +'0' que se ve al final de la segunda matriz indica que es un entero que se cambia a char para poder ingresarlo en la segunda matriz
-			if(jugadas==0){
-				while(matriz_random_10_minas[pos_fila][pos_columna]!=0){
-					matriz_num_aleatorio(8, 8);
-					asignar_casillas_8x8(matriz_random_10_minas);
-				}
-			}
-			if(matriz_random_10_minas[pos_fila][pos_columna]!=9){
-				matriz_char_10[pos_fila][pos_columna]=matriz_random_10_minas[pos_fila][pos_columna]+'0';
-				limpiar_casillas(matriz_char_10, matriz_random_10_minas);
-				reimprimir_matriz(matriz_char_10);
-			}
-			else{
-				cerrar_ciclo_8x8=true;
-				for (int i=0; i<8; i++){
-					for(int j=0; j<8; j++){
-						if(matriz_random_10_minas[i][j]==9){
-							matriz_char_10[i][j]='M';
-						}
+			if(jugada[0]>='A' && jugada[0]<='H'){
+				if(jugadas==0){
+					while(matriz_random_10_minas[pos_fila][pos_columna]!=0){
+						matriz_num_aleatorio(8, 8);
+						asignar_casillas_8x8(matriz_random_10_minas);
 					}
 				}
-				reimprimir_matriz(matriz_char_10);
-				cout<<"Usted oprimio una mina, usted perdio";
+				if(matriz_random_10_minas[pos_fila][pos_columna]!=9){
+					matriz_char_10[pos_fila][pos_columna]=matriz_random_10_minas[pos_fila][pos_columna]+'0';
+					limpiar_casillas(matriz_char_10, matriz_random_10_minas);
+					reimprimir_matriz(matriz_char_10);
+				}
+				else{
+					cerrar_ciclo_8x8=true;
+					for (int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(matriz_random_10_minas[i][j]==9){
+								matriz_char_10[i][j]='M';
+							}
+						}
+					}
+					reimprimir_matriz(matriz_char_10);
+					cout<<"Usted oprimio una mina, usted perdio";
+				}
 			}
-		}
+			if(jugada[0]>='a' && jugada[0]<='h'){
+				if(jugadas==0){
+					cout<<"Usted no puede marcar minas en la primera jugada"<<endl;
+					jugadas--;
+				}
+				matriz_char_10[pos_fila][pos_columna]='b';
+				reimprimir_matriz(matriz_char_10);
+			}
 	//Este for indica que el programa para cuando se llena la matriz de caracteres
 		if(cerrar_ciclo_8x8==false){
 			for (int i=0; i<8; i++){
@@ -827,6 +842,10 @@ int main (){
 				}
 			}
 		}
-		jugadas++;
+			jugadas++;
+		}
+		else{
+			cout<<"Casilla del tablero no valida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;	
+		}
 	}
 }
