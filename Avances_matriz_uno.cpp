@@ -822,11 +822,23 @@ int main (){
 			}
 			if(jugada[0]>='a' && jugada[0]<='h'){
 				if(jugadas==0){
-					cout<<"Usted no puede marcar minas en la primera jugada"<<endl;
 					jugadas--;
 				}
-				matriz_char_10[pos_fila][pos_columna]='b';
-				reimprimir_matriz(matriz_char_10);
+				if(matriz_char_10[pos_fila][pos_columna]=='X'|| matriz_char_10[pos_fila][pos_columna]=='b'){
+					if(matriz_char_10[pos_fila][pos_columna]=='X'){
+						matriz_char_10[pos_fila][pos_columna]='b';
+						reimprimir_matriz(matriz_char_10);
+					}
+					else {
+						if (matriz_char_10[pos_fila][pos_columna]=='b'){
+							matriz_char_10[pos_fila][pos_columna]='X';
+							reimprimir_matriz(matriz_char_10);
+						}
+					}
+				}
+				else{
+					cout<<endl<<"Este numero ya esta marcado como un espacio libre de minas"<<endl;
+				}
 			}
 	//Este for indica que el programa para cuando se llena la matriz de caracteres
 		if(cerrar_ciclo_8x8==false){
