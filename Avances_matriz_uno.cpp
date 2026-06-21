@@ -649,14 +649,14 @@ void limpiar_casillas(char matriz[8][8], int matriz_int [8][8]){
 			matriz[6][7]=matriz_int[6][7]+'0';
 		}
 		if (matriz[7][0]=='0'){
-			matriz[6][0]=matriz_int[0][1]+'0';
-			matriz[7][1]=matriz_int[1][0]+'0';
-			matriz[6][1]=matriz_int[1][1]+'0';
+			matriz[6][0]=matriz_int[6][0]+'0';
+			matriz[7][1]=matriz_int[7][1]+'0';
+			matriz[6][1]=matriz_int[6][1]+'0';
 		}
 		if (matriz[0][7]=='0'){
-			matriz[0][6]=matriz_int[0][1]+'0';
-			matriz[1][7]=matriz_int[1][0]+'0';
-			matriz[1][6]=matriz_int[1][1]+'0';
+			matriz[0][6]=matriz_int[0][6]+'0';
+			matriz[1][7]=matriz_int[1][7]+'0';
+			matriz[1][6]=matriz_int[1][6]+'0';
 		}
 		for (int i=1; i<7; i++){
 			if (matriz[0][i]=='0'){
@@ -681,7 +681,7 @@ void limpiar_casillas(char matriz[8][8], int matriz_int [8][8]){
 				matriz[i-1][0]=matriz_int[i-1][0]+'0';
 				matriz[i+1][0]=matriz_int[i+1][0]+'0';
 				matriz[i-1][1]=matriz_int[i-1][1]+'0';
-				matriz[i+1][1]=matriz_int[i+1][1]+'0';
+ 				matriz[i+1][1]=matriz_int[i+1][1]+'0';
 				matriz[i][1]=matriz_int[i][1]+'0';
 			}
 		}
@@ -701,10 +701,10 @@ void limpiar_casillas(char matriz[8][8], int matriz_int [8][8]){
 					matriz[i][j-1]=matriz_int[i][j-1]+'0';
 					matriz[i-1][j-1]=matriz_int[i-1][j-1]+'0';
 					matriz[i+1][j-1]=matriz_int[i+1][j-1]+'0';
-				    matriz[i+1][j]=matriz_int[i+1][j]+'0';
-	           	 	matriz[i-1][j+1]=matriz_int[i-1][j+1]+'0';
+				   	matriz[i+1][j]=matriz_int[i+1][j]+'0';
+	           		matriz[i-1][j+1]=matriz_int[i-1][j+1]+'0';
 					matriz[i+1][j+1]=matriz_int[i+1][j+1]+'0';
-					matriz[i-1][j]=matriz_int[i-1][j]+'0';
+					matriz[i-1][j]=matriz_int[i-1][j]+'0';	
 				}
 			}
 		}
@@ -722,6 +722,7 @@ void limpiar_casillas(char matriz[8][8], int matriz_int [8][8]){
 }*/
 int main (){
 	srand(time(NULL));
+	
 	int jugadas=0;
 	int pos_fila;
 	int pos_columna;
@@ -844,7 +845,7 @@ int main (){
 		if(cerrar_ciclo_8x8==false){
 			for (int i=0; i<8; i++){
 				for (int j=0; j<8; j++){
-					if (matriz_char_10[i][j]==matriz_random_10_minas[i][j]+'0'){
+					if (matriz_char_10[i][j]!='X'){
 						cerrar_ciclo_8x8=true;
 					}
 					else{
@@ -852,6 +853,12 @@ int main (){
 					break;
 					}
 				}
+				if (cerrar_ciclo_8x8==false){
+					break;
+				}
+			}
+			if(cerrar_ciclo_8x8==true){
+				cout<<"¡Felicidades usted ha ganado el nivel facil!"<<endl;
 			}
 		}
 			jugadas++;
