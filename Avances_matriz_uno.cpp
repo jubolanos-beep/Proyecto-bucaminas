@@ -2,11 +2,16 @@
 #include<ctime>
 #include<cmath>
 #include<string>
+#include<windows.h>
+#include<conio.h>
 using namespace std;
 //Declaré las variables auxiliares globales para guardar las matrices que se procesen en las funciones
 int matriz_random_10_minas[8][8]={0};
 int matriz_random_40_minas[16][16]={0};
 int matriz_random_80_minas[16][26]={0};
+int segundos=0;
+int minutos=0;
+int horas=0;
 void imprimir_tablero(int matriz[16][16]){
 	for (int i=0; i<16; i++){
 		for (int j=0; j<16; j++){
@@ -1044,6 +1049,7 @@ int main (){
 	int nivel;
 	cout<<"Escoja un nivel: "<<endl;
 	cin>>nivel;
+	system("cls");
 	while(nivel<1 || nivel>3){
 		cout<<"Solo puede escoger un nivel escribiendo un numero del 1 al 3"<<endl<<"Escoja un nivel: "<<endl;
 		cin>>nivel;
@@ -1052,7 +1058,7 @@ int main (){
 		int jugadas=0;
 		int pos_fila;
 		int pos_columna;
-		cout<<"Este es un buscaminas de 8x8, contiene 10 minas, escribir una coordenada para destapar la casilla"<<endl;
+		cout<<"Este es un buscaminas de 8x8, contiene 10 minas"<<endl<<"Escribir una coordenada en mayuscula para destapar la casilla y en minuscula para colocar una bandera sobre una mina"<<endl;
 		cout<<"Sistema coordenado:"<<endl;
 		cout<<"  "<<"A"<<" "<<"B"<<" "<<"C"<<" "<<"D"<<" "<<"E"<<" "<<"F"<<" "<<"G"<<" "<<"H"<<endl;
 		cout<<"1"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
@@ -1078,11 +1084,14 @@ int main (){
 			{'X','X','X','X','X','X','X','X'},
 		    {'X','X','X','X','X','X','X','X'}
 		};
+		int num_minas=10;
 		//Dentro de este ciclo se piden las jugadas del usuario
 		while (cerrar_ciclo_8x8==false){
 			string jugada;
-			cout<<endl<<endl<<"Escriba una casilla: ";
+			cout<<endl<<"Minas: "<<num_minas;
+			cout<<endl<<"Escriba una casilla: ";
 			cin>>jugada;
+			system("cls");
 			//Instructivo si el usuario ingresa coordenadas no válidas
 			if (((jugada[0]>='a' && jugada[0]<='h')||(jugada[0]>='A' && jugada[0]<='H'))&&(jugada[1]>='0' && jugada[1]<='8')){
 				switch(jugada[0]){
@@ -1155,16 +1164,21 @@ int main (){
 						if(matriz_char_10[pos_fila][pos_columna]=='X'){
 							matriz_char_10[pos_fila][pos_columna]='b';
 							reimprimir_matriz_8(matriz_char_10);
+							if(num_minas>0){
+								num_minas--;
+							}
 						}
 						else {
 							if (matriz_char_10[pos_fila][pos_columna]=='b'){
 								matriz_char_10[pos_fila][pos_columna]='X';
 								reimprimir_matriz_8(matriz_char_10);
+								num_minas++;
 							}
 						}
 					}
 					else{
 						cout<<endl<<"Este numero ya esta marcado como un espacio libre de minas"<<endl;
+						reimprimir_matriz_8(matriz_char_10);
 					}
 				}
 		//Este for indica que el programa para cuando se llena la matriz de caracteres
@@ -1191,6 +1205,7 @@ int main (){
 			}
 			else{
 				cout<<"Casilla del tablero no valida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;	
+				reimprimir_matriz_8(matriz_char_10);
 			}
 		}
 	}
@@ -1198,7 +1213,7 @@ int main (){
 		int jugadas=0;
 		int pos_fila;
 		int pos_columna;
-		cout<<"Este es un buscaminas de 16x16, contiene 40 minas, escribir una coordenada para destapar la casilla"<<endl;
+		cout<<"Este es un buscaminas de 16x16, contiene 40 minas"<<endl<<"Escribir una coordenada en mayuscula para destapar la casilla y en minuscula para colocar una bandera sobre una mina"<<endl;
 		cout<<"Sistema coordenado:"<<endl;
 		cout<<"   "<<"A"<<" "<<"B"<<" "<<"C"<<" "<<"D"<<" "<<"E"<<" "<<"F"<<" "<<"G"<<" "<<"H"<<" "<<"I"<<" "<<"J"<<" "<<"K"<<" "<<"L"<<" "<<"M"<<" "<<"N"<<" "<<"O"<<" "<<"P"<<endl;
 		cout<<" 1"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
@@ -1238,10 +1253,13 @@ int main (){
 		    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
 		    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
 		};
+		int num_minas=40;
 		while(cerrar_ciclo_16x16==false){
 			string jugada;
-			cout<<endl<<endl<<"Escriba una casilla: ";
+			cout<<endl<<"Minas: "<<num_minas;
+			cout<<endl<<"Escriba una casilla: ";
 			cin>>jugada;
+			system("cls");
 			if (((jugada[0]>='a' && jugada[0]<='p')||(jugada[0]>='A' && jugada[0]<='P'))&&(jugada[1]>='0' && jugada[1]<='16')){
 				switch(jugada[0]){
 					case 'A': pos_columna=0;
@@ -1360,16 +1378,21 @@ int main (){
 						if(matriz_char_40[pos_fila][pos_columna]=='X'){
 							matriz_char_40[pos_fila][pos_columna]='b';
 							reimprimir_matriz_16(matriz_char_40);
+							if (num_minas>0){
+								num_minas--;
+							}
 						}
 						else {
 							if (matriz_char_40[pos_fila][pos_columna]=='b'){
 								matriz_char_40[pos_fila][pos_columna]='X';
 								reimprimir_matriz_16(matriz_char_40);
+								num_minas++;
 							}
 						}
 					}
 					else{
 						cout<<endl<<"Este numero ya esta marcado como un espacio libre de minas"<<endl;
+						reimprimir_matriz_16(matriz_char_40);
 					}
 				}
 				if(cerrar_ciclo_16x16==false){
@@ -1395,6 +1418,7 @@ int main (){
 			}
 			else{
 				cout<<"Casilla del tablero no valida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;	
+				reimprimir_matriz_16(matriz_char_40);
 			}
 		}		
 	}
@@ -1402,7 +1426,7 @@ int main (){
 		int jugadas=0;
 		int pos_fila;
 		int pos_columna;
-		cout<<"Este es un buscaminas de 16x30, contiene 40 minas, escribir una coordenada para destapar la casilla"<<endl;
+		cout<<"Este es un buscaminas de 16x30, contiene 40 minas"<<endl<<"Escribir una coordenada, en mayuscula para destapar la casilla y en minuscula para colocar una bandera sobre una mina"<<endl;
 		cout<<"Sistema coordenado:"<<endl;
 		cout<<"   "<<"A"<<" "<<"B"<<" "<<"C"<<" "<<"D"<<" "<<"E"<<" "<<"F"<<" "<<"G"<<" "<<"H"<<" "<<"I"<<" "<<"J"<<" "<<"K"<<" "<<"L"<<" "<<"M"<<" "<<"N"<<" "<<"O"<<" "<<"P"<<" "<<"Q"<<" "<<"R"<<" "<<"S"<<" "<<"T"<<" "<<"U"<<" "<<"V"<<" "<<"W"<<" "<<"X"<<" "<<"Y"<<" "<<"Z"<<endl;
 		cout<<" 1"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
@@ -1442,10 +1466,13 @@ int main (){
 		    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
 		    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'}
 		};
+		int num_minas=80;
 		while(cerrar_ciclo_16x26==false){
 			string jugada;
-			cout<<endl<<endl<<"Escriba una casilla: ";
+			cout<<endl<<"Minas: "<<num_minas;
+			cout<<endl<<"Escriba una casilla: ";
 			cin>>jugada;
+			system("cls");
 			if (((jugada[0]>='a' && jugada[0]<='z')||(jugada[0]>='A' && jugada[0]<='Z'))&&(jugada[1]>='0' && jugada[1]<='16')){
 				switch(jugada[0]){
 					case 'A': pos_columna=0;
@@ -1603,16 +1630,21 @@ int main (){
 						if(matriz_char_80[pos_fila][pos_columna]=='X'){
 							matriz_char_80[pos_fila][pos_columna]='b';
 							reimprimir_matriz_26(matriz_char_80);
+							if(num_minas>0){
+								num_minas--;
+							}
 						}
 						else {
 							if (matriz_char_80[pos_fila][pos_columna]=='b'){
 								matriz_char_80[pos_fila][pos_columna]='X';
 								reimprimir_matriz_26(matriz_char_80);
+								num_minas++;
 							}
 						}
 					}
 					else{
 						cout<<endl<<"Este numero ya esta marcado como un espacio libre de minas"<<endl;
+						reimprimir_matriz_26(matriz_char_80);
 					}
 				}
 				if(cerrar_ciclo_16x26==false){
@@ -1638,6 +1670,7 @@ int main (){
 			}
 			else{
 				cout<<"Casilla del tablero no valida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;	
+				reimprimir_matriz_26(matriz_char_80);
 			}
 		}
 	}
