@@ -31,7 +31,7 @@ void tiempo(){
 	//Espera a que el usuario presione enter antes continuar con el pograma, esto evitara que se cierre cuando se finalice el while
 	cin.get();
 }
-//En muchos casos de debe reiniciar la matriz inicial que contiene los números por debajo de la matriz que se muestra, esto para que la primera jugada siempre sea 0 y sea más justo con el usuario, para ello, estas funciones recorren e inicializan de forma recursiva las matrices de enteros en 0.
+//En muchos casos de debe reiniciar la matriz inicial que contiene los números por debajo de la matriz que se muestra, esto para que la primera jugada siempre sea 0 y sea más justo con el usuario, para ello estas funciones recorren e inicializan de forma recursiva las matrices de enteros en 0.
 void poner_a_cero_8(int matriz[8][8], int filas, int columnas){
 	if (filas==8){
 		return;
