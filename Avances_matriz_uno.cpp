@@ -8,11 +8,11 @@
 #include<fstream>
 #include<sstream>
 using namespace std;
-//Declaré las variables auxiliares globales para guardar las matrices que se procesen en las funciones
+//DeclarÃ© las variables auxiliares globales para guardar las matrices que se procesen en las funciones
 int matriz_random_10_minas[8][8]={0};
 int matriz_random_40_minas[16][16]={0};
 int matriz_random_80_minas[16][26]={0};
-//Booleano que permitirá continuar y parar el cronómetro
+//Booleano que permitirÃ¡ continuar y parar el cronÃ³metro
 bool correr_juego=true; 
 int segundos=0;
 int minutos=0;
@@ -26,7 +26,7 @@ void tiempo(){
 				horas++;
 			}
 		}
-	//Sleep detiene la ejecución de esta función durante 1000 milisegundos, lo cual equivale a un segundo.
+	//Sleep detiene la ejecuciÃ³n de esta funciÃ³n durante 1000 milisegundos, lo cual equivale a un segundo.
 	Sleep(1000);
 	segundos++;
 	}
@@ -34,7 +34,7 @@ void tiempo(){
 	cin.get();
 }
 
-//En muchos casos de debe reiniciar la matriz inicial que contiene los n�meros por debajo de la matriz que se muestra, esto para que la primera jugada siempre sea 0 y sea m�s justo con el usuario, para ello estas funciones recorren e inicializan de forma recursiva las matrices de enteros en 0.
+//En muchos casos de debe reiniciar la matriz inicial que contiene los números por debajo de la matriz que se muestra, esto para que la primera jugada siempre sea 0 y sea más justo con el usuario, para ello estas funciones recorren e inicializan de forma recursiva las matrices de enteros en 0.
 void poner_a_cero_8(int matriz[8][8], int filas, int columnas){
 	if (filas==8){
 		return;
@@ -71,19 +71,19 @@ void poner_a_cero_26(int matriz[16][26], int filas, int columnas){
 		poner_a_cero_26(matriz, filas+1, 0);
 	}
 }
-//Esta función generará minas en espacios aleatorios de cada matriz
+//Esta funciÃ³n generarÃ¡ minas en espacios aleatorios de cada matriz
 void matriz_num_aleatorio(int filas, int columnas){
-//La función srand permite crear el número aleatorio, inicializé con time(NULL) que equivale a los segundos transcurridos desde el 1 de enero 1970, sin meterlo en una variable.
+//La funciÃ³n srand permite crear el nÃºmero aleatorio, inicializÃ© con time(NULL) que equivale a los segundos transcurridos desde el 1 de enero 1970, sin meterlo en una variable.
 	int tablero [filas][columnas]={0};
 	int maximo=filas*columnas;
 	if (maximo==64){
 		poner_a_cero_8(matriz_random_10_minas, 0, 0);
 		for (int i=0; i<10; i++){
-			//El ciclo va hasta 10 ya que es el número de minas que quiero para una matriz de 8*8, los números aleatorios de deben inicializr de nuevo en cada ciclo
+			//El ciclo va hasta 10 ya que es el nÃºmero de minas que quiero para una matriz de 8*8, los nÃºmeros aleatorios de deben inicializr de nuevo en cada ciclo
 			int aleatorio_filas=rand()%filas;
 			int aleatorio_columnas=rand()%columnas;
 			//cada 9 repreenta una mina, posteriormente esto cambiara cuando se desarrolle la parte que se muestra al usuario
-			//En caso de que la casilla ya tenga una mina, resté 1 a la variable de conteo e inicializé el contador nuevamente
+			//En caso de que la casilla ya tenga una mina, restÃ© 1 a la variable de conteo e inicializÃ© el contador nuevamente
 			if(tablero[aleatorio_filas][aleatorio_columnas]!=9){
 				tablero[aleatorio_filas][aleatorio_columnas]=9;
 				matriz_random_10_minas[aleatorio_filas][aleatorio_columnas]=tablero[aleatorio_filas][aleatorio_columnas];
@@ -96,11 +96,11 @@ void matriz_num_aleatorio(int filas, int columnas){
 	if (maximo==256){
 		poner_a_cero_16(matriz_random_40_minas, 0, 0);
 		for (int i=0; i<40; i++){
-			//El ciclo va hasta 40 ya que es el número de minas que quiero para una matriz de 16*16, los números aleatorios de deben inicializr de nuevo en cada ciclo
+			//El ciclo va hasta 40 ya que es el nÃºmero de minas que quiero para una matriz de 16*16, los nÃºmeros aleatorios de deben inicializr de nuevo en cada ciclo
 			int aleatorio_filas=rand()%filas;
 			int aleatorio_columnas=rand()%columnas;
 			//cada 9 repreenta una mina, posteriormente esto cambiara cuando se desarrolle la parte que se muestra al usuario
-			//En caso de que la casilla ya tenga una mina, resté 1 a la variable de conteo e inicializé el contador nuevamente
+			//En caso de que la casilla ya tenga una mina, restÃ© 1 a la variable de conteo e inicializÃ© el contador nuevamente
 			if(tablero[aleatorio_filas][aleatorio_columnas]!=9){
 				tablero[aleatorio_filas][aleatorio_columnas]=9;
 				matriz_random_40_minas[aleatorio_filas][aleatorio_columnas]=tablero[aleatorio_filas][aleatorio_columnas];
@@ -113,11 +113,11 @@ void matriz_num_aleatorio(int filas, int columnas){
 		if (maximo==416){
 			poner_a_cero_26(matriz_random_80_minas, 0, 0);
 		for (int i=0; i<80; i++){
-			//El ciclo va hasta 80 ya que es el número de minas que quiero para una matriz de 30*16, los números aleatorios de deben inicializr de nuevo en cada ciclo
+			//El ciclo va hasta 80 ya que es el nÃºmero de minas que quiero para una matriz de 30*16, los nÃºmeros aleatorios de deben inicializr de nuevo en cada ciclo
 			int aleatorio_filas=rand()%filas;
 			int aleatorio_columnas=rand()%columnas;
 			//cada 9 repreenta una mina, posteriormente esto cambiara cuando se desarrolle la parte que se muestra al usuario
-			//En caso de que la casilla ya tenga una mina, resté 1 a la variable de conteo e inicializé el contador nuevamente
+			//En caso de que la casilla ya tenga una mina, restÃ© 1 a la variable de conteo e inicializÃ© el contador nuevamente
 			if(tablero[aleatorio_filas][aleatorio_columnas]!=9){
 				tablero[aleatorio_filas][aleatorio_columnas]=9;
 				matriz_random_80_minas[aleatorio_filas][aleatorio_columnas]=tablero[aleatorio_filas][aleatorio_columnas];
@@ -302,7 +302,7 @@ void matriz_num_aleatorio(int filas, int columnas){
 		}
 	}
 }
-//Las siguientes 2 funciones void funcionan igual que la anterior, solo que ahora cambian los tamaños de las matrices
+//Las siguientes 2 funciones void funcionan igual que la anterior, solo que ahora cambian los tamaÃ±os de las matrices
 void asignar_casillas_16x16(int matriz_1[16][16]){
 	if (matriz_1[0][0]!=9){
 		int i=0;
@@ -850,9 +850,9 @@ void reimprimir_matriz_26(char matriz[16][26]){
 		cout<<matriz[15][i]<<" ";
 	}
 }
-//A continuación añadí una función que recorre la matriz y muestra los espacios adyacentes vacios: Si se oprime o muestra un 0, se mostrará todas las casillas adyacentes, de esta forma, todas las casillas son números distintos de 0 o números.
+//A continuaciÃ³n aÃ±adÃ­ una funciÃ³n que recorre la matriz y muestra los espacios adyacentes vacios: Si se oprime o muestra un 0, se mostrarÃ¡ todas las casillas adyacentes, de esta forma, todas las casillas son nÃºmeros distintos de 0 o nÃºmeros.
 void limpiar_casillas_8(char matriz[8][8], int matriz_int [8][8]){
-	//Los ciclos iniciales recorren la matriz un número de veces igual al del número de columnas, con el de fin no dejar ningún cero que no este rodeado por números.
+	//Los ciclos iniciales recorren la matriz un nÃºmero de veces igual al del nÃºmero de columnas, con el de fin no dejar ningÃºn cero que no este rodeado por nÃºmeros.
 	for (int c=0; c<8; c++){
 		if (matriz[0][0]=='0'){
 			//El +'0' indica que se pasa de un valor entero a un string
@@ -1077,35 +1077,35 @@ void limpiar_casillas_26(char matriz[16][26], int matriz_int [16][26]){
 }
 struct Jugador {
 	string nombre;
-	int tiempo;
+	int tiempoJugado;
 	int puntaje;
 };
-int calcularPuntaje(int tiempo, int dificultad){
+int calcularPuntaje(int tiempoJugado, int dificultad){
 	int base;
-	if(dificultad == 1) base == 1000;
-	else if(dificultad == 2) base == 2000;
-	else base == 3000;
-	return base - (tiempo * 10);
+	if(dificultad == 1) base = 1000;
+	else if(dificultad == 2) base = 2000;
+	else base = 3000;
+	return base - (tiempoJugado * 10);
 }
-void guardarJugador(Jugador ranking[], int &n, string nombre, int tiempo, int puntaje){
+void guardarJugador(Jugador ranking[], int &n, string nombre, int tiempoJugado, int puntaje){
 	ranking[n].nombre = nombre;
-	ranking[n].tiempo = tiempo;
+	ranking[n].tiempoJugado = tiempoJugado;
 	ranking[n].puntaje = puntaje;
 	n++;
 }
 void ordenarRanking(Jugador ranking[], int n){
 	for(int i = 0; i < n - 1; i++){
 		for(int j = i + 1; j < n; j++){
-			if(ranking[j].tiempo < ranking[i].tiempo){
+			if(ranking[j].tiempoJugado < ranking[i].tiempoJugado){
 				swap(ranking[i], ranking[j]);
 			}
 		}
 	}
 }
-void mostrarRanking(){
+void mostrarRanking(Jugador ranking[], int n){
 	cout<<"=========== MEJORES PUNTAJES ==========="<<endl;
 	for(int i = 0; i < n; i++){
-		cout<< i+ 1 <<". "<<ranking[i].nombre<<" | Tiempo: "<<ranking[i].tiempo<<" | Puntaje: "<<ranking[i].puntaje<<endl;
+		cout<< i+ 1 <<". "<<ranking[i].nombre<<" | Tiempo: "<<ranking[i].tiempoJugado<<" | Puntaje: "<<ranking[i].puntaje<<endl;
 	}
 }
 
@@ -1126,23 +1126,23 @@ void cargarRanking(Jugador ranking[], int &n, string nombreArchivo){ //Esta func
 			continue;
 		}
 		ranking[n].nombre = nombre;
-		ranking[n].tiempo = stoi(tiempoStr);
+		ranking[n].tiempoJugado = stoi(tiempoStr);
 		ranking[n].puntaje = stoi(puntajeStr);
 		n++;
 	}
 	archivo.close();
 }
-void guardarRankingEnArchivo(Jugador ranking[], int n; string nombreArchivo){
+void guardarRankingEnArchivo(Jugador ranking[], int n, string nombreArchivo){
 	ofstream archivo(nombreArchivo);
 	for(int i = 0; i < n; i++){
-		archivo<<ranking[i].nombre<<";"<<ranking[i].tiempo<<";"<<ranking[i].puntaje<<endl;
+		archivo<<ranking[i].nombre<<";"<<ranking[i].tiempoJugado<<";"<<ranking[i].puntaje<<endl;
 	}
 	archivo.close();
 }
 
 
 int main (){
-	//La función srand permite crear el número aleatorio, inicializé con time(NULL) que equivale a los segundos transcurridos desde el 1 de enero 1970, sin meterlo en una variable.
+	//La funciÃ³n srand permite crear el nÃºmero aleatorio, inicializÃ© con time(NULL) que equivale a los segundos transcurridos desde el 1 de enero 1970, sin meterlo en una variable.
 	srand(time(NULL));
 	Jugador ranking[20];
 	int n = 0;
@@ -1159,15 +1159,15 @@ int main (){
 		cout<<"Solo puede escoger un nivel escribiendo un numero del 1 al 3"<<endl<<"Escoja un nivel: "<<endl;
 		cin>>nivel;
 	}
-	//la función system ("cls"), permite limpiar la cosola para la comodidad del usuario
+	//la funciÃ³n system ("cls"), permite limpiar la consola para la comodidad del usuario
 	system("cls");
 	if(nivel==1){
-		//Con thread se inicializan más "hilos" en la ejecución, que permiten que trozos de código se ejecuten a la vez que la función main, sin esto, el cronometro se quedaría en un while infinito ya que nunca se llegaría a la condición de parada.
+		//Con thread se inicializan mÃ¡s "hilos" en la ejecuciÃ³n, que permiten que trozos de cÃ³digo se ejecuten a la vez que la funciÃ³n main, sin esto, el cronometro se quedarÃ­a en un while infinito ya que nunca se llegarÃ­a a la condiciÃ³n de parada.
 		thread cronometro(tiempo);
 		cout<<endl;
 		//Esta variable ayuda a tener control de que la primera jugada siempre resulte en un 0
 		int jugadas=0;
-		//Las siguiente 2 variables permiten dar la ubicación de las casillas
+		//Las siguiente 2 variables permiten dar la ubicaciÃ³n de las casillas
 		int pos_fila;
 		int pos_columna;
 		cout<<"Este es un buscaminas de 8x8, contiene 10 minas"<<endl<<"Escribir una coordenada en mayuscula para destapar la casilla y en minuscula para colocar una bandera sobre una mina"<<endl;
@@ -1204,7 +1204,7 @@ int main (){
 			cout<<endl<<"Minas: "<<num_minas;
 			cout<<endl<<"Escriba una casilla: ";
 			cin>>jugada;
-			//En estos case se separa la jugada como un vector de chars para pasar más fácil las coordenadas a la matriz.
+			//En estos case se separa la jugada como un vector de chars para pasar mÃ¡s fÃ¡cil las coordenadas a la matriz.
 			if (((jugada[0]>='a' && jugada[0]<='h')||(jugada[0]>='A' && jugada[0]<='H'))&&(jugada[1]>='0' && jugada[1]<='8')){
 				switch(jugada[0]){
 					case 'A': pos_columna=0;
@@ -1256,7 +1256,7 @@ int main (){
 						matriz_char_10[pos_fila][pos_columna]=matriz_random_10_minas[pos_fila][pos_columna]+'0';
 						limpiar_casillas_8(matriz_char_10, matriz_random_10_minas);
 						if(matriz_char_10[pos_fila][pos_columna]=='b' && num_minas<11){
-							//Las 'b' indican banderas que pone el usuario cuando ingresa coordenadas en minúscula
+							//Las 'b' indican banderas que pone el usuario cuando ingresa coordenadas en minÃºscula
 							num_minas++;
 						}
 						system("cls");
@@ -1265,7 +1265,7 @@ int main (){
 					//Si el jugador pierde:
 					else{
 						cerrar_ciclo_8x8=true;
-						//Cada vez que se cierre el juego el booleano del cronómetro se vuelve false
+						//Cada vez que se cierre el juego el booleano del cronÃ³metro se vuelve false
 						correr_juego=false;
 						for (int i=0; i<8; i++){
 							for(int j=0; j<8; j++){
@@ -1281,7 +1281,7 @@ int main (){
 				}
 				if(jugada[0]>='a' && jugada[0]<='h'){
 					if(jugadas==0){
-						//Esto permite mantener la comodidad inicial al usuario si por alguna razón marca una bandera en la primera jugada
+						//Esto permite mantener la comodidad inicial al usuario si por alguna razÃ³n marca una bandera en la primera jugada
 						jugadas--;
 					}
 					//Si el usuario desea marcar una mina
@@ -1304,7 +1304,7 @@ int main (){
 							}
 						}
 					}
-					//Si el usuario intenta marcar como bandera un número ya colocado
+					//Si el usuario intenta marcar como bandera un nÃºmero ya colocado
 					else{
 						system("cls");
 						cout<<endl<<"Este numero ya esta marcado como un espacio libre de minas"<<endl;
@@ -1329,7 +1329,7 @@ int main (){
 				}
 				if(cerrar_ciclo_8x8==true){
 					correr_juego=false;
-					cout<<endl<<"¡Felicidades usted ha ganado el nivel facil!"<<endl;
+					cout<<endl<<"Â¡Felicidades usted ha ganado el nivel facil!"<<endl;
 					int tiempoTotal = horas*3600 + minutos*60 + segundos;
 					int puntaje = calcularPuntaje(tiempoTotal,1);
 					guardarJugador(ranking, n, nombreJugador, tiempoTotal, puntaje);
@@ -1340,14 +1340,14 @@ int main (){
 			}
 			jugadas++;
 			}
-			//Si el usuario ingresa algun string que no sea válido
+			//Si el usuario ingresa algun string que no sea vÃ¡lido
 			else{
 				system("cls");
 				cout<<"Casilla del tablero no valida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;	
 				reimprimir_matriz_8(matriz_char_10);
 			}
 		}
-		//Antes de continuar con la ejecución principal el .join() espera a que el hilo del cronómetro finalice 
+		//Antes de continuar con la ejecuciÃ³n principal el .join() espera a que el hilo del cronÃ³metro finalice 
 		cronometro.join();
 		//Se mostrara el tiempo solo cuando el usuario haya ganado para evitar que este se sobreescriba en los couts de la main.
 		cout<<endl<<"tiempo: "<<horas<<": "<<minutos<<": "<<segundos<<": ";
@@ -1558,9 +1558,9 @@ int main (){
 					}
 					if(cerrar_ciclo_16x16==true){
 						correr_juego=false;
-						cout<<endl<<"¡Felicidades usted ha ganado el nivel medio!"<<endl;
+						cout<<endl<<"Â¡Felicidades usted ha ganado el nivel medio!"<<endl;
 						int tiempoTotal = horas*3600 + minutos*60 + segundos;
-						int puntaje = calculaPuntaje(tiempoTotal,2);
+						int puntaje = calcularPuntaje(tiempoTotal,2);
 						guardarJugador(ranking, n, nombreJugador, tiempoTotal, puntaje);
 						ordenarRanking(ranking,n);
 						mostrarRanking(ranking, n);
@@ -1822,7 +1822,7 @@ int main (){
 					}
 					if(cerrar_ciclo_16x26==true){
 						correr_juego=false;
-						cout<<endl<<"¡Felicidades usted ha ganado el nivel medio!"<<endl;
+						cout<<endl<<"Â¡Felicidades usted ha ganado el nivel dificil!"<<endl;
 						int tiempoTotal = horas*3600 + minutos*60 + segundos;
 						int puntaje = calcularPuntaje(tiempoTotal,3);
 						guardarJugador(ranking, n, nombreJugador , tiempoTotal, puntaje);
