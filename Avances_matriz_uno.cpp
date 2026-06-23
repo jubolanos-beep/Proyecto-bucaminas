@@ -4,7 +4,6 @@
 #include<windows.h>
 #include<conio.h>
 #include<thread>
-#include<atomic>
 #include<string>
 using namespace std;
 //Declaré las variables auxiliares globales para guardar las matrices que se procesen en las funciones
@@ -32,35 +31,49 @@ void tiempo(){
 	//Espera a que el usuario presione enter antes continuar con el pograma, esto evitara que se cierre cuando se finalice el while
 	cin.get();
 }
-//En muchos casos de debe reiniciar la matriz inicial que contiene los números por debajo de la matriz que se muestra, esto para que la primera jugada siempre sea 0 y sea más justo con el usuario, para ello, estas funciones inicializan las matrices de enteros en 0.
-void poner_a_cero_8(int matriz[8][8]){
-	for(int i=0; i<8; i++){
-		for(int j=0; j <8; j++){
-			matriz[i][j]=0;
-		}
+//En muchos casos de debe reiniciar la matriz inicial que contiene los números por debajo de la matriz que se muestra, esto para que la primera jugada siempre sea 0 y sea más justo con el usuario, para ello, estas funciones recorren e inicializan de forma recursiva las matrices de enteros en 0.
+void poner_a_cero_8(int matriz[8][8], int filas, int columnas){
+	if (filas==8){
+		return;
+	}
+	matriz[filas][columnas]=0;
+	if(columnas+1<8){
+		poner_a_cero_8(matriz, filas, columnas+1);
+	}
+	else{
+		poner_a_cero_8(matriz, filas+1, 0);
 	}
 }
-void poner_a_cero_16(int matriz[16][16]){
-	for(int i=0; i<16; i++){
-		for(int j=0; j <16; j++){
-			matriz[i][j]=0;
-		}
+void poner_a_cero_16(int matriz[16][16], int filas, int columnas){
+	if (filas==16){
+		return;
+	}
+	matriz[filas][columnas]=0;
+	if(columnas+1<16){
+		poner_a_cero_16(matriz, filas, columnas+1);
+	}
+	else{
+		poner_a_cero_16(matriz, filas+1, 0);
 	}
 }
-void poner_a_cero_26(int matriz[16][26]){
-	for(int i=0; i<16; i++){
-		for(int j=0; j <26; j++){
-			matriz[i][j]=0;
-		}
+void poner_a_cero_26(int matriz[16][26], int filas, int columnas){
+	if (filas==16){
+		return;
+	}
+	matriz[filas][columnas]=0;
+	if(columnas+1<26){
+		poner_a_cero_26(matriz, filas, columnas+1);
+	}
+	else{
+		poner_a_cero_26(matriz, filas+1, 0);
 	}
 }
 //Esta función generará minas en espacios aleatorios de cada matriz
 void matriz_num_aleatorio(int filas, int columnas){
-//La función srand permite crear el número aleatorio, inicializé con time(NULL) que equivale a los segundos transcurridos desde el 1 de enero 1970, sin meterlo en una variable.
 	int tablero [filas][columnas]={0};
 	int maximo=filas*columnas;
 	if (maximo==64){
-		poner_a_cero_8(matriz_random_10_minas);
+		poner_a_cero_8(matriz_random_10_minas, 0, 0);
 		for (int i=0; i<10; i++){
 			//El ciclo va hasta 10 ya que es el número de minas que quiero para una matriz de 8*8, los números aleatorios de deben inicializr de nuevo en cada ciclo
 			int aleatorio_filas=rand()%filas;
@@ -77,7 +90,7 @@ void matriz_num_aleatorio(int filas, int columnas){
 		}
 	}
 	if (maximo==256){
-		poner_a_cero_16(matriz_random_40_minas);
+		poner_a_cero_16(matriz_random_40_minas, 0, 0);
 		for (int i=0; i<40; i++){
 			//El ciclo va hasta 40 ya que es el número de minas que quiero para una matriz de 16*16, los números aleatorios de deben inicializr de nuevo en cada ciclo
 			int aleatorio_filas=rand()%filas;
@@ -94,7 +107,7 @@ void matriz_num_aleatorio(int filas, int columnas){
 		}
 	}
 		if (maximo==416){
-			poner_a_cero_26(matriz_random_80_minas);
+			poner_a_cero_26(matriz_random_80_minas, 0, 0);
 		for (int i=0; i<80; i++){
 			//El ciclo va hasta 80 ya que es el número de minas que quiero para una matriz de 30*16, los números aleatorios de deben inicializr de nuevo en cada ciclo
 			int aleatorio_filas=rand()%filas;
@@ -1158,6 +1171,7 @@ int main (){
 						while(matriz_random_10_minas[pos_fila][pos_columna]!=0){
 							matriz_num_aleatorio(8, 8);
 							asignar_casillas_8x8(matriz_random_10_minas);
+							cout<<"entro al while"<<endl;
 						}
 					}
 					//En caso de oprimir una casilla correcta:
@@ -1307,7 +1321,7 @@ int main (){
 			cout<<endl<<"Minas: "<<num_minas;
 			cout<<endl<<"Escriba una casilla: ";
 			cin>>jugada;
-			system("cls")
+			system("cls");
 			if (((jugada[0]>='a' && jugada[0]<='p')||(jugada[0]>='A' && jugada[0]<='P'))&&(jugada[1]>='0' && jugada[1]<='16')){
 				switch(jugada[0]){
 					case 'A': pos_columna=0;
@@ -1472,7 +1486,7 @@ int main (){
 			}
 		}
 		cronometro.join();
-		cout<<"Casilla del tablero no valida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;
+		cout<<endl<<"tiempo: "<<horas<<": "<<minutos<<": "<<segundos<<": ";
 	}
 	//Nivel 3
 	if(nivel==3){
@@ -1526,6 +1540,7 @@ int main (){
 			cout<<endl<<"Minas: "<<num_minas;
 			cout<<endl<<"Escriba una casilla: ";
 			cin>>jugada;
+			system("cls");
 			if (((jugada[0]>='a' && jugada[0]<='z')||(jugada[0]>='A' && jugada[0]<='Z'))&&(jugada[1]>='0' && jugada[1]<='16')){
 				switch(jugada[0]){
 					case 'A': pos_columna=0;
@@ -1729,6 +1744,6 @@ int main (){
 			}
 		}
 		cronometro.join();
-		cout<<"Casilla del tablero no valida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;
+		cout<<endl<<"tiempo: "<<horas<<": "<<minutos<<": "<<segundos<<": ";cout<<"Casilla del tablero no valida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;
 	}
 }
