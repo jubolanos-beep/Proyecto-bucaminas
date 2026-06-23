@@ -1,12 +1,13 @@
 #include<iostream>
 using namespace std;
 
-struct Jugador = { //ES COMO UNA LISTA DE PYTHON, GUARDAMOS VARIAS VARIABLES DE DIFERENTES TIPOS EN JUGADOR
+struct Jugador { //ES COMO UNA LISTA DE PYTHON, GUARDAMOS VARIAS VARIABLES DE DIFERENTES TIPOS EN JUGADOR
 		string nombre;
 		int tiempo;
 		int puntaje;
 	};
 int calcularPuntaje(int tiempo, int dificultad){  //FUNCION PARA CALCULAR EL PUNTAJE
+	int base;
 	if(dificultad == 1) base ==1000;
 	else if(dificultad == 2) base == 2000;
 	else base == 3000;
