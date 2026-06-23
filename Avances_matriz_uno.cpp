@@ -1060,9 +1060,82 @@ void limpiar_casillas_26(char matriz[16][26], int matriz_int [16][26]){
 		}
 	}
 }
+struct Jugador {
+	string nombre;
+	int tiempo;
+	int puntaje;
+};
+int calcularPuntaje(int tiempo, int dificultad){
+	int base;
+	if(dificultad == 1) base == 1000;
+	else if(dificultad == 2) base == 2000;
+	else base == 3000;
+	return base - (tiempo * 10);
+}
+void guardarJugador(Jugador ranking[], int &n, string nombre, int tiempo, int puntaje){
+	ranking[n].nombre = nombre;
+	ranking[n].tiempo = tiempo;
+	ranking[n].puntaje = puntaje;
+	n++;
+}
+void ordenarRanking(Jugador ranking[], int n){
+	for(int i = 0; i < n - 1; i++){
+		for(int j = i + 1; j < n; j++){
+			if(ranking[j].tiempo < ranking[i].tiempo){
+				swap(ranking[i], ranking[j]);
+			}
+		}
+	}
+}
+void mostrarRanking(){
+	cout<<"=========== MEJORES PUNTAJES ==========="<<endl;
+	for(int i = 0; i < n; i++){
+		cout<< i+ 1 <<". "<<ranking[i].nombre<<" | Tiempo: "<<ranking[i].tiempo<<" | Puntaje: "<<ranking[i].puntaje<<endl;
+	}
+}
+
+void cargarRanking(Jugador ranking[], int &n, string nombreArchivo){ //Esta funcion nos permite aplicar la lectura de archivos en los puntajes
+	ifstream archivo(nombreArchivo);
+	n = 0;
+	if(!archivo.is_open()){
+		return;
+	}
+	string linea;
+	while(getline(archivo,linea)){
+		stringstream ss(linea);
+		string nombre, tiempoStr, puntajeStr;
+		getline(ss,nombre,';');
+		getline(ss,tiempoStr,';');
+		getline(ss,puntajeStr,';');
+		if(nombre.empty()){
+			continue;
+		}
+		ranking[n].nombre = nombre;
+		ranking[n].tiempo = stoi(tiempoStr);
+		ranking[n].puntaje = stoi(puntajeStr);
+		n++;
+	}
+	archivo.close();
+}
+void guardarRankingEnArchivo(Jugador ranking[], int n; string nombreArchivo){
+	ofstream archivo(nombreArchivo);
+	for(int i = 0; i < n; i++){
+		archivo<<ranking[i].nombre<<";"<<ranking[i].tiempo<<";"<<ranking[i].puntaje<<endl;
+	}
+	archivo.close();
+}
+
+
 int main (){
 	//La función srand permite crear el número aleatorio, inicializé con time(NULL) que equivale a los segundos transcurridos desde el 1 de enero 1970, sin meterlo en una variable.
 	srand(time(NULL));
+	Jugador ranking[20];
+	int n = 0;
+	string nombreArchivo = "puntajes.txt";
+	cargarRanking(ranking,n,nombreArchivo);
+	string nombreJugador;
+	cout<<"Ingrese su nombre: ";
+	cin>>nombreJugador;
 	cout<<"BUSCAMINAS"<<endl<<"Escoja el nivel que desea jugar"<<endl<<"Oprima 1 para facil (8x8)"<<endl<<"Oprima 2 para medio (16x16)"<<endl<<"Oprima 3 para dificil (16x30)"<<endl;
 	int nivel;
 	cout<<"Escoja un nivel: "<<endl;
@@ -1241,6 +1314,12 @@ int main (){
 				if(cerrar_ciclo_8x8==true){
 					correr_juego=false;
 					cout<<endl<<"¡Felicidades usted ha ganado el nivel facil!"<<endl;
+					int tiempoTotal = horas*3600 + minutos*60 + segundos;
+					int puntaje = calcularPuntaje(tiempoTotal,1);
+					guardarJugador(ranking, n, nombreJugador, tiempoTotal, puntaje);
+					ordenarRanking(ranking,n);
+					mostrarRanking(ranking, n);
+					guardarRankingEnArchivo(ranking, n, nombreArchivo);
 				}
 			}
 			jugadas++;
@@ -1309,7 +1388,7 @@ int main (){
 			cout<<endl<<"Minas: "<<num_minas;
 			cout<<endl<<"Escriba una casilla: ";
 			cin>>jugada;
-			system("cls")
+			system("cls");
 			if (((jugada[0]>='a' && jugada[0]<='p')||(jugada[0]>='A' && jugada[0]<='P'))&&(jugada[1]>='0' && jugada[1]<='16')){
 				switch(jugada[0]){
 					case 'A': pos_columna=0;
@@ -1464,6 +1543,12 @@ int main (){
 					if(cerrar_ciclo_16x16==true){
 						correr_juego=false;
 						cout<<endl<<"¡Felicidades usted ha ganado el nivel medio!"<<endl;
+						int tiempoTotal = horas*3600 + minutos*60 + segundos;
+						int puntaje = calculaPuntaje(tiempoTotal,2);
+						guardarJugador(ranking, n, nombreJugador, tiempoTotal, puntaje);
+						ordenarRanking(ranking,n);
+						mostrarRanking(ranking, n);
+						guardarRankingEnArchivo(ranking, n, nombreArchivo);
 					}
 				}
 				jugadas++;
@@ -1721,6 +1806,12 @@ int main (){
 					if(cerrar_ciclo_16x26==true){
 						correr_juego=false;
 						cout<<endl<<"¡Felicidades usted ha ganado el nivel medio!"<<endl;
+						int tiempoTotal = horas*3600 + minutos*60 + segundos;
+						int puntaje = calcularPuntaje(tiempoTotal,3);
+						guardarJugador(ranking, n, nombreJugador , tiempoTotal, puntaje);
+						ordenarRanking(ranking, n);
+						mostrarRanking(ranking, n);
+						guardarRankingEnArchivo(ranking, n, nombreArchivo);
 					}
 				}
 				jugadas++;
