@@ -1150,7 +1150,7 @@ int main (){
 	cargarRanking(ranking,n,nombreArchivo);
 	string nombreJugador;
 	cout<<"Ingrese su nombre: ";
-	cin>>nombreJugador;
+	getline(cin,nombreJugador);
 	cout<<"BUSCAMINAS"<<endl<<"Escoja el nivel que desea jugar"<<endl<<"Oprima 1 para facil (8x8)"<<endl<<"Oprima 2 para medio (16x16)"<<endl<<"Oprima 3 para dificil (16x30)"<<endl;
 	int nivel;
 	cout<<"Escoja un nivel: "<<endl;
