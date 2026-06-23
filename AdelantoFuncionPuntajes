@@ -1,0 +1,54 @@
+#include<iostream>
+using namespace std;
+
+struct Jugador = { //ES COMO UNA LISTA DE PYTHON, GUARDAMOS VARIAS VARIABLES DE DIFERENTES TIPOS EN JUGADOR
+		string nombre;
+		int tiempo;
+		int puntaje;
+	};
+int calcularPuntaje(int tiempo, int dificultad){  //FUNCION PARA CALCULAR EL PUNTAJE
+	if(dificultad == 1) base ==1000;
+	else if(dificultad == 2) base == 2000;
+	else base == 3000;
+	return base - tiempo*10;
+}
+void guardarJugador(Jugador ranking[], int &n, string nombre, int tiempo, int puntaje){ //SE GUARDA EL NOMBRE DEL JUGADOR PARA LA LISTA DE LOS PUNTAJES
+	ranking[n].nombre = nombre;
+	ranking[n].tiempo = tiempo;
+	ranking[n].puntaje = puntaje;
+	n++;
+}
+void ordenarRanking(Jugador ranking[], int n){ //SI EL NUEVO JUGADOR REGISTRADO GANO EN MENOR TIEMPO ENTONCES OCUPARA LA POSICION MENOR(MAS ARRIBA EN EL RANKING)
+	for(int i = 0; i < n - 1; i++){
+		for(int j = i + 1; j < n; j++){
+			if(ranking[j].tiempo < ranking[i].tiempo){
+				swap(ranking[i], ranking[j]);
+			}
+		}
+	}
+}
+void mostrarRanking(Jugador ranking[], int n){ //DESPUES DE ORGANIZAR EL RANKING AHORA SE MOSTRARA
+	cout<<"=========== MEJORES PUNTAJES ==========="<<endl;
+	for(int i = 0; i < n; i++){
+		cout<< i+ 1 <<". "<<ranking[i].nombre<<" | Tiempo: "<<ranking[i].tiempo<<" | Puntaje: "<<ranking[i].puntaje<<endl;
+	}
+}
+int main(){
+	Jugador ranking[100];
+	int n = 0;
+	string nombre;
+	cout<<"Ingrese su nombre: ";
+	cin>>nombre;
+	time_t inicio = time(NULL); //AQUI EMPIEZA A CONTAR EL CRONOMETRO
+	
+	//RESTO DE JUEGO
+	time_t fin = time(NULL); //AQUI TERMINA EL TIEMPO EN CRONOMETRO
+	int tiempo
+	int tiempo = difftime(fin, inicio); //AQUI SE REGISTRA EL TIEMPO TOTAL EN TERMINAR
+	int puntaje = calcularPuntaje(tiempo, dificultad); //toma el puntaje de la dificultad escojida al inicio y se calcula el puntaje total en la funcion
+	guardarJugador(ranking, n, nombre, tiempo, puntaje); //guarda los datos del jugador y del juego para mostrar en el puntaje de quienes ganaron
+	ordenarRanking(ranking, n);
+	mostrarRanking(ranking, n);
+}
+
+//HACE FALTA INCORPORAR ESTE "MODELO" CON LOS DATOS DEL CODIGO PRINCIPAL PARA GUARDAR LOS PUNTAJES
