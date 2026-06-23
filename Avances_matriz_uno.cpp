@@ -1179,7 +1179,7 @@ int main (){
 		if(opcionMenu==3){
 			cout<<"Gracias por jugar, hasta pronto!"<<endl;
 			salirPrograma = true;
-			continue;
+			return 0;
 		}
 	}
 	string nombreJugador;
