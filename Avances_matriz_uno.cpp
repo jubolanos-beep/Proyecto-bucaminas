@@ -1,17 +1,34 @@
 #include<iostream>
 #include<ctime>
 #include<cmath>
-#include<string>
 #include<windows.h>
 #include<conio.h>
+#include<thread>
+#include<atomic>
+#include<string>
 using namespace std;
 //Declaré las variables auxiliares globales para guardar las matrices que se procesen en las funciones
 int matriz_random_10_minas[8][8]={0};
 int matriz_random_40_minas[16][16]={0};
 int matriz_random_80_minas[16][26]={0};
+bool correr_juego=true; 
 int segundos=0;
 int minutos=0;
 int horas=0;
+void tiempo(){
+	while(correr_juego==true){
+		if (segundos>=60){
+			segundos=0;
+			minutos++;
+			if(minutos>=60){
+				horas++;
+			}
+		}
+	Sleep(1000);
+	segundos++;
+	}
+	cin.get();
+}
 void imprimir_tablero(int matriz[16][16]){
 	for (int i=0; i<16; i++){
 		for (int j=0; j<16; j++){
@@ -20,7 +37,6 @@ void imprimir_tablero(int matriz[16][16]){
 		cout<<endl;
 	}
 }
-
 void poner_a_cero_8(int matriz[8][8]){
 	for(int i=0; i<8; i++){
 		for(int j=0; j <8; j++){
@@ -1049,12 +1065,14 @@ int main (){
 	int nivel;
 	cout<<"Escoja un nivel: "<<endl;
 	cin>>nivel;
-	system("cls");
 	while(nivel<1 || nivel>3){
 		cout<<"Solo puede escoger un nivel escribiendo un numero del 1 al 3"<<endl<<"Escoja un nivel: "<<endl;
 		cin>>nivel;
 	}
+	system("cls");
 	if(nivel==1){
+		thread cronometro(tiempo);
+		cout<<endl;
 		int jugadas=0;
 		int pos_fila;
 		int pos_columna;
@@ -1091,7 +1109,6 @@ int main (){
 			cout<<endl<<"Minas: "<<num_minas;
 			cout<<endl<<"Escriba una casilla: ";
 			cin>>jugada;
-			system("cls");
 			//Instructivo si el usuario ingresa coordenadas no válidas
 			if (((jugada[0]>='a' && jugada[0]<='h')||(jugada[0]>='A' && jugada[0]<='H'))&&(jugada[1]>='0' && jugada[1]<='8')){
 				switch(jugada[0]){
@@ -1141,10 +1158,15 @@ int main (){
 					if(matriz_random_10_minas[pos_fila][pos_columna]!=9){
 						matriz_char_10[pos_fila][pos_columna]=matriz_random_10_minas[pos_fila][pos_columna]+'0';
 						limpiar_casillas_8(matriz_char_10, matriz_random_10_minas);
+						if(matriz_char_10[pos_fila][pos_columna]=='b' && num_minas<11){
+							num_minas++;
+						}
+						system("cls");
 						reimprimir_matriz_8(matriz_char_10);
 					}
 					else{
 						cerrar_ciclo_8x8=true;
+						correr_juego=false;
 						for (int i=0; i<8; i++){
 							for(int j=0; j<8; j++){
 								if(matriz_random_10_minas[i][j]==9){
@@ -1152,6 +1174,7 @@ int main (){
 								}
 							}
 						}
+						system("cls");
 						reimprimir_matriz_8(matriz_char_10);
 						cout<<"Usted oprimio una mina, usted perdio";
 					}
@@ -1163,6 +1186,7 @@ int main (){
 					if(matriz_char_10[pos_fila][pos_columna]=='X'|| matriz_char_10[pos_fila][pos_columna]=='b'){
 						if(matriz_char_10[pos_fila][pos_columna]=='X'){
 							matriz_char_10[pos_fila][pos_columna]='b';
+							system("cls");
 							reimprimir_matriz_8(matriz_char_10);
 							if(num_minas>0){
 								num_minas--;
@@ -1171,12 +1195,14 @@ int main (){
 						else {
 							if (matriz_char_10[pos_fila][pos_columna]=='b'){
 								matriz_char_10[pos_fila][pos_columna]='X';
+								system("cls");
 								reimprimir_matriz_8(matriz_char_10);
 								num_minas++;
 							}
 						}
 					}
 					else{
+						system("cls");
 						cout<<endl<<"Este numero ya esta marcado como un espacio libre de minas"<<endl;
 						reimprimir_matriz_8(matriz_char_10);
 					}
@@ -1198,18 +1224,23 @@ int main (){
 					}
 				}
 				if(cerrar_ciclo_8x8==true){
+					correr_juego=false;
 					cout<<endl<<"¡Felicidades usted ha ganado el nivel facil!"<<endl;
 				}
 			}
 			jugadas++;
 			}
 			else{
+				system("cls");
 				cout<<"Casilla del tablero no valida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;	
 				reimprimir_matriz_8(matriz_char_10);
 			}
 		}
+		cronometro.join();
+		cout<<endl<<"tiempo: "<<horas<<": "<<minutos<<": "<<segundos<<": ";
 	}
 	if(nivel==2){
+		thread cronometro(tiempo);
 		int jugadas=0;
 		int pos_fila;
 		int pos_columna;
@@ -1259,7 +1290,7 @@ int main (){
 			cout<<endl<<"Minas: "<<num_minas;
 			cout<<endl<<"Escriba una casilla: ";
 			cin>>jugada;
-			system("cls");
+			system("cls")
 			if (((jugada[0]>='a' && jugada[0]<='p')||(jugada[0]>='A' && jugada[0]<='P'))&&(jugada[1]>='0' && jugada[1]<='16')){
 				switch(jugada[0]){
 					case 'A': pos_columna=0;
@@ -1344,7 +1375,6 @@ int main (){
 					case '6': pos_fila=15;
 						break;
 				}
-				
 				if(jugada[0]>='A' && jugada[0]<='P'){
 					if(jugadas==0){
 						while(matriz_random_40_minas[pos_fila][pos_columna]!=0){
@@ -1359,6 +1389,7 @@ int main (){
 					}
 					else{
 						cerrar_ciclo_16x16=true;
+						
 						for (int i=0; i<16; i++){
 							for(int j=0; j<16; j++){
 								if(matriz_random_40_minas[i][j]==9){
@@ -1367,6 +1398,7 @@ int main (){
 							}
 						}
 						reimprimir_matriz_16(matriz_char_40);
+						correr_juego=false;
 						cout<<"Usted oprimio una mina, usted perdio";
 					}
 				}
@@ -1411,6 +1443,7 @@ int main (){
 						}
 					}
 					if(cerrar_ciclo_16x16==true){
+						correr_juego=false;
 						cout<<endl<<"¡Felicidades usted ha ganado el nivel medio!"<<endl;
 					}
 				}
@@ -1420,9 +1453,12 @@ int main (){
 				cout<<"Casilla del tablero no valida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;	
 				reimprimir_matriz_16(matriz_char_40);
 			}
-		}		
+		}
+		cronometro.join();
+		cout<<"Casilla del tablero no valida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;
 	}
 	if(nivel==3){
+		thread cronometro(tiempo);
 		int jugadas=0;
 		int pos_fila;
 		int pos_columna;
@@ -1472,7 +1508,6 @@ int main (){
 			cout<<endl<<"Minas: "<<num_minas;
 			cout<<endl<<"Escriba una casilla: ";
 			cin>>jugada;
-			system("cls");
 			if (((jugada[0]>='a' && jugada[0]<='z')||(jugada[0]>='A' && jugada[0]<='Z'))&&(jugada[1]>='0' && jugada[1]<='16')){
 				switch(jugada[0]){
 					case 'A': pos_columna=0;
@@ -1611,6 +1646,7 @@ int main (){
 					}
 					else{
 						cerrar_ciclo_16x26=true;
+						correr_juego=false;
 						for (int i=0; i<16; i++){
 							for(int j=0; j<26; j++){
 								if(matriz_random_80_minas[i][j]==9){
@@ -1663,6 +1699,7 @@ int main (){
 						}
 					}
 					if(cerrar_ciclo_16x26==true){
+						correr_juego=false;
 						cout<<endl<<"¡Felicidades usted ha ganado el nivel medio!"<<endl;
 					}
 				}
@@ -1673,5 +1710,7 @@ int main (){
 				reimprimir_matriz_26(matriz_char_80);
 			}
 		}
+		cronometro.join();
+		cout<<"Casilla del tablero no valida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;
 	}
 }
