@@ -11,6 +11,7 @@ using namespace std;
 int matriz_random_10_minas[8][8]={0};
 int matriz_random_40_minas[16][16]={0};
 int matriz_random_80_minas[16][26]={0};
+//Booleano que permitirá continuar y parar el cronómetro
 bool correr_juego=true; 
 int segundos=0;
 int minutos=0;
@@ -24,19 +25,14 @@ void tiempo(){
 				horas++;
 			}
 		}
+	//Sleep detiene la ejecución de esta función durante 1000 milisegundos, lo cual equivale a un segundo.
 	Sleep(1000);
 	segundos++;
 	}
+	//Espera a que el usuario presione enter antes continuar con el pograma, esto evitara que se cierre cuando se finalice el while
 	cin.get();
 }
-void imprimir_tablero(int matriz[16][16]){
-	for (int i=0; i<16; i++){
-		for (int j=0; j<16; j++){
-			cout<<matriz[i][j]<<" ";
-		}
-		cout<<endl;
-	}
-}
+//En muchos casos de debe reiniciar la matriz inicial que contiene los números por debajo de la matriz que se muestra, esto para que la primera jugada siempre sea 0 y sea más justo con el usuario, para ello, estas funciones inicializan las matrices de enteros en 0.
 void poner_a_cero_8(int matriz[8][8]){
 	for(int i=0; i<8; i++){
 		for(int j=0; j <8; j++){
@@ -115,7 +111,7 @@ void matriz_num_aleatorio(int filas, int columnas){
 		}
 	}
 }
-//Las siguientes funciones void, se encargan de rellenar por medio de ciclos los espacios restantes de las matrices
+//Las siguientes funciones void (asignar casillas), se encargan de rellenar por medio de ciclos los espacios restantes de las matrices
  void asignar_casillas_8x8(int matriz_1[8][8]){
  	//Los siguientes 4 ifs son para las esquinas de la matriz
 	if (matriz_1[0][0]!=9){
@@ -630,6 +626,7 @@ void asignar_casillas_16x26(int matriz_1[16][26]){
 		}
 	}
 }
+//Las funciones reimprimir_matriz se encargan de imprimir las matrices de caracteres junto con las coordenadas cada vez que se les llama.
 void reimprimir_matriz_8(char matriz[8][8]){
 	cout<<"  "<<"A"<<" "<<"B"<<" "<<"C"<<" "<<"D"<<" "<<"E"<<" "<<"F"<<" "<<"G"<<" "<<"H"<<endl;
 	cout<<"1 ";
@@ -836,10 +833,12 @@ void reimprimir_matriz_26(char matriz[16][26]){
 		cout<<matriz[15][i]<<" ";
 	}
 }
-//A continuación añadí una función recursiva que recorre la matriz y muestra los espacios adyacentes vacios: Si se oprime o muestra un 0, se mostrará todas las casillas adyacentes, de esta forma, todas las casillas son números distintos de 0 o números.
+//A continuación añadí una función que recorre la matriz y muestra los espacios adyacentes vacios: Si se oprime o muestra un 0, se mostrará todas las casillas adyacentes, de esta forma, todas las casillas son números distintos de 0 o números.
 void limpiar_casillas_8(char matriz[8][8], int matriz_int [8][8]){
+	//Los ciclos iniciales recorren la matriz un número de veces igual al del número de columnas, con el de fin no dejar ningún cero que no este rodeado por números.
 	for (int c=0; c<8; c++){
 		if (matriz[0][0]=='0'){
+			//El +'0' indica que se pasa de un valor entero a un string
 			matriz[0][1]=matriz_int[0][1]+'0';
 			matriz[1][0]=matriz_int[1][0]+'0';
 			matriz[1][1]=matriz_int[1][1]+'0';
@@ -1060,6 +1059,7 @@ void limpiar_casillas_26(char matriz[16][26], int matriz_int [16][26]){
 	}
 }
 int main (){
+	//La función srand permite crear el número aleatorio, inicializé con time(NULL) que equivale a los segundos transcurridos desde el 1 de enero 1970, sin meterlo en una variable.
 	srand(time(NULL));
 	cout<<"BUSCAMINAS"<<endl<<"Escoja el nivel que desea jugar"<<endl<<"Oprima 1 para facil (8x8)"<<endl<<"Oprima 2 para medio (16x16)"<<endl<<"Oprima 3 para dificil (16x30)"<<endl;
 	int nivel;
@@ -1069,11 +1069,15 @@ int main (){
 		cout<<"Solo puede escoger un nivel escribiendo un numero del 1 al 3"<<endl<<"Escoja un nivel: "<<endl;
 		cin>>nivel;
 	}
+	//la función system ("cls"), permite limpiar la cosola para la comodidad del usuario
 	system("cls");
 	if(nivel==1){
+		//Con thread se inicializan más "hilos" en la ejecución, que permiten que trozos de código se ejecuten a la vez que la función main, sin esto, el cronometro se quedaría en un while infinito ya que nunca se llegaría a la condición de parada.
 		thread cronometro(tiempo);
 		cout<<endl;
+		//Esta variable ayuda a tener control de que la primera jugada siempre resulte en un 0
 		int jugadas=0;
+		//Las siguiente 2 variables permiten dar la ubicación de las casillas
 		int pos_fila;
 		int pos_columna;
 		cout<<"Este es un buscaminas de 8x8, contiene 10 minas"<<endl<<"Escribir una coordenada en mayuscula para destapar la casilla y en minuscula para colocar una bandera sobre una mina"<<endl;
@@ -1102,6 +1106,7 @@ int main (){
 			{'X','X','X','X','X','X','X','X'},
 		    {'X','X','X','X','X','X','X','X'}
 		};
+		//Este contador denominado num_minas, muestra cuantas minas faltan por destapar 
 		int num_minas=10;
 		//Dentro de este ciclo se piden las jugadas del usuario
 		while (cerrar_ciclo_8x8==false){
@@ -1109,7 +1114,7 @@ int main (){
 			cout<<endl<<"Minas: "<<num_minas;
 			cout<<endl<<"Escriba una casilla: ";
 			cin>>jugada;
-			//Instructivo si el usuario ingresa coordenadas no válidas
+			//En estos case se separa la jugada como un vector de chars para pasar más fácil las coordenadas a la matriz.
 			if (((jugada[0]>='a' && jugada[0]<='h')||(jugada[0]>='A' && jugada[0]<='H'))&&(jugada[1]>='0' && jugada[1]<='8')){
 				switch(jugada[0]){
 					case 'A': pos_columna=0;
@@ -1147,25 +1152,29 @@ int main (){
 				}
 				pos_fila=(jugada[1]-'0')-1;
 			//En estos condicionales se cambia el espacio de las matrices, dependiendo de la coordenada escrita.
-			//El +'0' que se ve al final de la segunda matriz indica que es un entero que se cambia a char para poder ingresarlo en la segunda matriz
 				if(jugada[0]>='A' && jugada[0]<='H'){
 					if(jugadas==0){
+						//Este While inicializa la casilla oprimida en 0
 						while(matriz_random_10_minas[pos_fila][pos_columna]!=0){
 							matriz_num_aleatorio(8, 8);
 							asignar_casillas_8x8(matriz_random_10_minas);
 						}
 					}
+					//En caso de oprimir una casilla correcta:
 					if(matriz_random_10_minas[pos_fila][pos_columna]!=9){
 						matriz_char_10[pos_fila][pos_columna]=matriz_random_10_minas[pos_fila][pos_columna]+'0';
 						limpiar_casillas_8(matriz_char_10, matriz_random_10_minas);
 						if(matriz_char_10[pos_fila][pos_columna]=='b' && num_minas<11){
+							//Las 'b' indican banderas que pone el usuario cuando ingresa coordenadas en minúscula
 							num_minas++;
 						}
 						system("cls");
 						reimprimir_matriz_8(matriz_char_10);
 					}
+					//Si el jugador pierde:
 					else{
 						cerrar_ciclo_8x8=true;
+						//Cada vez que se cierre el juego el booleano del cronómetro se vuelve false
 						correr_juego=false;
 						for (int i=0; i<8; i++){
 							for(int j=0; j<8; j++){
@@ -1181,8 +1190,10 @@ int main (){
 				}
 				if(jugada[0]>='a' && jugada[0]<='h'){
 					if(jugadas==0){
+						//Esto permite mantener la comodidad inicial al usuario si por alguna razón marca una bandera en la primera jugada
 						jugadas--;
 					}
+					//Si el usuario desea marcar una mina
 					if(matriz_char_10[pos_fila][pos_columna]=='X'|| matriz_char_10[pos_fila][pos_columna]=='b'){
 						if(matriz_char_10[pos_fila][pos_columna]=='X'){
 							matriz_char_10[pos_fila][pos_columna]='b';
@@ -1192,6 +1203,7 @@ int main (){
 								num_minas--;
 							}
 						}
+						//Si el usuario desea desmarcar una mina
 						else {
 							if (matriz_char_10[pos_fila][pos_columna]=='b'){
 								matriz_char_10[pos_fila][pos_columna]='X';
@@ -1201,6 +1213,7 @@ int main (){
 							}
 						}
 					}
+					//Si el usuario intenta marcar como bandera un número ya colocado
 					else{
 						system("cls");
 						cout<<endl<<"Este numero ya esta marcado como un espacio libre de minas"<<endl;
@@ -1230,15 +1243,19 @@ int main (){
 			}
 			jugadas++;
 			}
+			//Si el usuario ingresa algun string que no sea válido
 			else{
 				system("cls");
 				cout<<"Casilla del tablero no valida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;	
 				reimprimir_matriz_8(matriz_char_10);
 			}
 		}
+		//Antes de continuar con la ejecución principal el .join() espera a que el hilo del cronómetro finalice 
 		cronometro.join();
+		//Se mostrara el tiempo solo cuando el usuario haya ganado para evitar que este se sobreescriba en los couts de la main.
 		cout<<endl<<"tiempo: "<<horas<<": "<<minutos<<": "<<segundos<<": ";
 	}
+	//Nivel 2
 	if(nivel==2){
 		thread cronometro(tiempo);
 		int jugadas=0;
@@ -1457,6 +1474,7 @@ int main (){
 		cronometro.join();
 		cout<<"Casilla del tablero no valida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;
 	}
+	//Nivel 3
 	if(nivel==3){
 		thread cronometro(tiempo);
 		int jugadas=0;
