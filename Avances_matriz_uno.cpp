@@ -7,12 +7,13 @@
 #include<string>
 #include<fstream>
 #include<sstream>
+#include<locale>
 using namespace std;
-//DeclarÃ© las variables auxiliares globales para guardar las matrices que se procesen en las funciones
+//Declaracion de las variables auxiliares globales para guardar las matrices que se procesen en las funciones
 int matriz_random_10_minas[8][8]={0};
 int matriz_random_40_minas[16][16]={0};
 int matriz_random_80_minas[16][26]={0};
-//Booleano que permitirÃ¡ continuar y parar el cronÃ³metro
+//Booleano que permitira� continuar y parar el cronometro
 bool correr_juego=true; 
 int segundos=0;
 int minutos=0;
@@ -26,7 +27,7 @@ void tiempo(){
 				horas++;
 			}
 		}
-	//Sleep detiene la ejecuciÃ³n de esta funciÃ³n durante 1000 milisegundos, lo cual equivale a un segundo.
+	//Sleep detiene la ejecucion de esta funcion durante 1000 milisegundos, lo cual equivale a un segundo.
 	Sleep(1000);
 	segundos++;
 	}
@@ -71,19 +72,19 @@ void poner_a_cero_26(int matriz[16][26], int filas, int columnas){
 		poner_a_cero_26(matriz, filas+1, 0);
 	}
 }
-//Esta funciÃ³n generarÃ¡ minas en espacios aleatorios de cada matriz
+//Esta funcion generara� minas en espacios aleatorios de cada matriz
 void matriz_num_aleatorio(int filas, int columnas){
-//La funciÃ³n srand permite crear el nÃºmero aleatorio, inicializÃ© con time(NULL) que equivale a los segundos transcurridos desde el 1 de enero 1970, sin meterlo en una variable.
+//La funcion srand permite crear el numero aleatorio, inicializado con time(NULL) que equivale a los segundos transcurridos desde el 1 de enero 1970, sin meterlo en una variable.
 	int tablero [filas][columnas]={0};
 	int maximo=filas*columnas;
 	if (maximo==64){
 		poner_a_cero_8(matriz_random_10_minas, 0, 0);
 		for (int i=0; i<10; i++){
-			//El ciclo va hasta 10 ya que es el nÃºmero de minas que quiero para una matriz de 8*8, los nÃºmeros aleatorios de deben inicializr de nuevo en cada ciclo
+			//El ciclo va hasta 10 ya que es el numero de minas que quiero para una matriz de 8*8, los numeros aleatorios de deben inicializr de nuevo en cada ciclo
 			int aleatorio_filas=rand()%filas;
 			int aleatorio_columnas=rand()%columnas;
 			//cada 9 repreenta una mina, posteriormente esto cambiara cuando se desarrolle la parte que se muestra al usuario
-			//En caso de que la casilla ya tenga una mina, restÃ© 1 a la variable de conteo e inicializÃ© el contador nuevamente
+			//En caso de que la casilla ya tenga una mina, resta 1 a la variable de conteo e inicializa el contador nuevamente
 			if(tablero[aleatorio_filas][aleatorio_columnas]!=9){
 				tablero[aleatorio_filas][aleatorio_columnas]=9;
 				matriz_random_10_minas[aleatorio_filas][aleatorio_columnas]=tablero[aleatorio_filas][aleatorio_columnas];
@@ -96,11 +97,11 @@ void matriz_num_aleatorio(int filas, int columnas){
 	if (maximo==256){
 		poner_a_cero_16(matriz_random_40_minas, 0, 0);
 		for (int i=0; i<40; i++){
-			//El ciclo va hasta 40 ya que es el nÃºmero de minas que quiero para una matriz de 16*16, los nÃºmeros aleatorios de deben inicializr de nuevo en cada ciclo
+			//El ciclo va hasta 40 ya que es el numero de minas que quiero para una matriz de 16*16, los numeros aleatorios de deben inicializr de nuevo en cada ciclo
 			int aleatorio_filas=rand()%filas;
 			int aleatorio_columnas=rand()%columnas;
 			//cada 9 repreenta una mina, posteriormente esto cambiara cuando se desarrolle la parte que se muestra al usuario
-			//En caso de que la casilla ya tenga una mina, restÃ© 1 a la variable de conteo e inicializÃ© el contador nuevamente
+			//En caso de que la casilla ya tenga una mina, resta 1 a la variable de conteo e inicializa el contador nuevamente
 			if(tablero[aleatorio_filas][aleatorio_columnas]!=9){
 				tablero[aleatorio_filas][aleatorio_columnas]=9;
 				matriz_random_40_minas[aleatorio_filas][aleatorio_columnas]=tablero[aleatorio_filas][aleatorio_columnas];
@@ -113,11 +114,11 @@ void matriz_num_aleatorio(int filas, int columnas){
 		if (maximo==416){
 			poner_a_cero_26(matriz_random_80_minas, 0, 0);
 		for (int i=0; i<80; i++){
-			//El ciclo va hasta 80 ya que es el nÃºmero de minas que quiero para una matriz de 30*16, los nÃºmeros aleatorios de deben inicializr de nuevo en cada ciclo
+			//El ciclo va hasta 80 ya que es el numero de minas que quiero para una matriz de 30*16, los numeros aleatorios de deben inicializr de nuevo en cada ciclo
 			int aleatorio_filas=rand()%filas;
 			int aleatorio_columnas=rand()%columnas;
 			//cada 9 repreenta una mina, posteriormente esto cambiara cuando se desarrolle la parte que se muestra al usuario
-			//En caso de que la casilla ya tenga una mina, restÃ© 1 a la variable de conteo e inicializÃ© el contador nuevamente
+			//En caso de que la casilla ya tenga una mina, resta 1 a la variable de conteo e inicializa el contador nuevamente
 			if(tablero[aleatorio_filas][aleatorio_columnas]!=9){
 				tablero[aleatorio_filas][aleatorio_columnas]=9;
 				matriz_random_80_minas[aleatorio_filas][aleatorio_columnas]=tablero[aleatorio_filas][aleatorio_columnas];
@@ -302,7 +303,7 @@ void matriz_num_aleatorio(int filas, int columnas){
 		}
 	}
 }
-//Las siguientes 2 funciones void funcionan igual que la anterior, solo que ahora cambian los tamaÃ±os de las matrices
+//Las siguientes 2 funciones void funcionan igual que la anterior, solo que ahora cambian los tamanos de las matrices
 void asignar_casillas_16x16(int matriz_1[16][16]){
 	if (matriz_1[0][0]!=9){
 		int i=0;
@@ -850,7 +851,7 @@ void reimprimir_matriz_26(char matriz[16][26]){
 		cout<<matriz[15][i]<<" ";
 	}
 }
-//A continuaciÃ³n aÃ±adÃ­ una funciÃ³n que recorre la matriz y muestra los espacios adyacentes vacios: Si se oprime o muestra un 0, se mostrarÃ¡ todas las casillas adyacentes, de esta forma, todas las casillas son nÃºmeros distintos de 0 o nÃºmeros.
+//A continuacion agregue una funcionn que recorre la matriz y muestra los espacios adyacentes vacios: Si se oprime o muestra un 0, se mostrara� todas las casillas adyacentes, de esta forma, todas las casillas son numeros distintos de 0 o numeros.
 void limpiar_casillas_8(char matriz[8][8], int matriz_int [8][8]){
 	//Los ciclos iniciales recorren la matriz un nÃºmero de veces igual al del nÃºmero de columnas, con el de fin no dejar ningÃºn cero que no este rodeado por nÃºmeros.
 	for (int c=0; c<8; c++){
@@ -1105,7 +1106,7 @@ void ordenarRanking(Jugador ranking[], int n){
 void mostrarRanking(Jugador ranking[], int n){
 	cout<<"=========== MEJORES PUNTAJES ==========="<<endl;
 	for(int i = 0; i < n; i++){
-		cout<< i+ 1 <<". "<<ranking[i].nombre<<" | Tiempo: "<<ranking[i].tiempoJugado<<" | Puntaje: "<<ranking[i].puntaje<<endl;
+		cout<< i+ 1 <<". "<<ranking[i].nombre<<" | Tiempo: "<<ranking[i].tiempoJugado<<" Segundos"<<" | Puntaje: "<<ranking[i].puntaje<<endl;
 	}
 }
 
@@ -1142,7 +1143,9 @@ void guardarRankingEnArchivo(Jugador ranking[], int n, string nombreArchivo){
 
 
 int main (){
-	//La funciÃ³n srand permite crear el nÃºmero aleatorio, inicializÃ© con time(NULL) que equivale a los segundos transcurridos desde el 1 de enero 1970, sin meterlo en una variable.
+	//La funcion srand permite crear el numero aleatorio, inicialize con time(NULL) que equivale a los segundos transcurridos desde el 1 de enero 1970, sin meterlo en una variable.
+	//Esta funcion permite colocar tildes.
+	setlocale(LC_ALL, "spanish");
 	srand(time(NULL));
 	Jugador ranking[20];
 	int n = 0;
@@ -1151,26 +1154,29 @@ int main (){
 	string nombreJugador;
 	cout<<"Ingrese su nombre: ";
 	getline(cin,nombreJugador);
-	cout<<"BUSCAMINAS"<<endl<<"Escoja el nivel que desea jugar"<<endl<<"Oprima 1 para facil (8x8)"<<endl<<"Oprima 2 para medio (16x16)"<<endl<<"Oprima 3 para dificil (16x30)"<<endl;
+	cout<<"BUSCAMINAS"<<endl<<"Escoja el nivel que desea jugar"<<endl<<"Oprima 1 para f�cil (8x8)"<<endl<<"Oprima 2 para medio (16x16)"<<endl<<"Oprima 3 para dif�cil (16x30)"<<endl<<"Oprima 4 para ver los mejores puntajes"<<endl;
 	int nivel;
 	cout<<"Escoja un nivel: "<<endl;
 	cin>>nivel;
-	while(nivel<1 || nivel>3){
-		cout<<"Solo puede escoger un nivel escribiendo un numero del 1 al 3"<<endl<<"Escoja un nivel: "<<endl;
+	while(nivel<1 || nivel>4){
+		cout<<"Solo puede escoger un nivel escribiendo un n�mero del 1 al 3"<<endl<<"Escoja un nivel: "<<endl;
 		cin>>nivel;
 	}
-	//la funciÃ³n system ("cls"), permite limpiar la consola para la comodidad del usuario
+	//la funcion system ("cls"), permite limpiar la consola para la comodidad del usuario
 	system("cls");
+	if(nivel==4){
+		mostrarRanking(ranking, n);
+	}
 	if(nivel==1){
-		//Con thread se inicializan mÃ¡s "hilos" en la ejecuciÃ³n, que permiten que trozos de cÃ³digo se ejecuten a la vez que la funciÃ³n main, sin esto, el cronometro se quedarÃ­a en un while infinito ya que nunca se llegarÃ­a a la condiciÃ³n de parada.
+		//Con thread se inicializan mas "hilos" en la ejecucion, que permiten que trozos de codigo se ejecuten a la vez que la funcion main, sin esto, el cronometro se quedara en un while infinito ya que nunca se llegara a la condicion de parada.
 		thread cronometro(tiempo);
 		cout<<endl;
 		//Esta variable ayuda a tener control de que la primera jugada siempre resulte en un 0
 		int jugadas=0;
-		//Las siguiente 2 variables permiten dar la ubicaciÃ³n de las casillas
+		//Las siguiente 2 variables permiten dar la ubicacion de las casillas
 		int pos_fila;
 		int pos_columna;
-		cout<<"Este es un buscaminas de 8x8, contiene 10 minas"<<endl<<"Escribir una coordenada en mayuscula para destapar la casilla y en minuscula para colocar una bandera sobre una mina"<<endl;
+		cout<<"Este es un buscaminas de 8x8, contiene 10 minas"<<endl<<"Escribir una coordenada en may�scula para destapar la casilla y en min�scula para colocar una bandera sobre una mina"<<endl;
 		cout<<"Sistema coordenado:"<<endl;
 		cout<<"  "<<"A"<<" "<<"B"<<" "<<"C"<<" "<<"D"<<" "<<"E"<<" "<<"F"<<" "<<"G"<<" "<<"H"<<endl;
 		cout<<"1"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
@@ -1248,7 +1254,7 @@ int main (){
 						while(matriz_random_10_minas[pos_fila][pos_columna]!=0){
 							matriz_num_aleatorio(8, 8);
 							asignar_casillas_8x8(matriz_random_10_minas);
-							cout<<"entro al while"<<endl;
+							cout<<"entr� al while"<<endl;
 						}
 					}
 					//En caso de oprimir una casilla correcta:
@@ -1256,7 +1262,7 @@ int main (){
 						matriz_char_10[pos_fila][pos_columna]=matriz_random_10_minas[pos_fila][pos_columna]+'0';
 						limpiar_casillas_8(matriz_char_10, matriz_random_10_minas);
 						if(matriz_char_10[pos_fila][pos_columna]=='b' && num_minas<11){
-							//Las 'b' indican banderas que pone el usuario cuando ingresa coordenadas en minÃºscula
+							//Las 'b' indican banderas que pone el usuario cuando ingresa coordenadas en minuscula
 							num_minas++;
 						}
 						system("cls");
@@ -1265,7 +1271,7 @@ int main (){
 					//Si el jugador pierde:
 					else{
 						cerrar_ciclo_8x8=true;
-						//Cada vez que se cierre el juego el booleano del cronÃ³metro se vuelve false
+						//Cada vez que se cierre el juego el booleano del cronometro se vuelve false
 						correr_juego=false;
 						for (int i=0; i<8; i++){
 							for(int j=0; j<8; j++){
@@ -1276,12 +1282,12 @@ int main (){
 						}
 						system("cls");
 						reimprimir_matriz_8(matriz_char_10);
-						cout<<"Usted oprimio una mina, usted perdio";
+						cout<<"Usted oprimi� una mina, usted perdi�";
 					}
 				}
 				if(jugada[0]>='a' && jugada[0]<='h'){
 					if(jugadas==0){
-						//Esto permite mantener la comodidad inicial al usuario si por alguna razÃ³n marca una bandera en la primera jugada
+						//Esto permite mantener la comodidad inicial al usuario si por alguna razon marca una bandera en la primera jugada
 						jugadas--;
 					}
 					//Si el usuario desea marcar una mina
@@ -1304,10 +1310,10 @@ int main (){
 							}
 						}
 					}
-					//Si el usuario intenta marcar como bandera un nÃºmero ya colocado
+					//Si el usuario intenta marcar como bandera un numero ya colocado
 					else{
 						system("cls");
-						cout<<endl<<"Este numero ya esta marcado como un espacio libre de minas"<<endl;
+						cout<<endl<<"Este n�mero ya esta marcado como un espacio libre de minas"<<endl;
 						reimprimir_matriz_8(matriz_char_10);
 					}
 				}
@@ -1329,7 +1335,7 @@ int main (){
 				}
 				if(cerrar_ciclo_8x8==true){
 					correr_juego=false;
-					cout<<endl<<"Â¡Felicidades usted ha ganado el nivel facil!"<<endl;
+					cout<<endl<<"�Felicidades usted ha ganado el nivel f�cil!"<<endl;
 					int tiempoTotal = horas*3600 + minutos*60 + segundos;
 					int puntaje = calcularPuntaje(tiempoTotal,1);
 					guardarJugador(ranking, n, nombreJugador, tiempoTotal, puntaje);
@@ -1340,14 +1346,14 @@ int main (){
 			}
 			jugadas++;
 			}
-			//Si el usuario ingresa algun string que no sea vÃ¡lido
+			//Si el usuario ingresa algun string que no sea v�lido
 			else{
 				system("cls");
-				cout<<"Casilla del tablero no valida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;	
+				cout<<"Casilla del tablero no v�lida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;	
 				reimprimir_matriz_8(matriz_char_10);
 			}
 		}
-		//Antes de continuar con la ejecuciÃ³n principal el .join() espera a que el hilo del cronÃ³metro finalice 
+		//Antes de continuar con la ejecucion principal el .join() espera a que el hilo del cronometro finalice 
 		cronometro.join();
 		//Se mostrara el tiempo solo cuando el usuario haya ganado para evitar que este se sobreescriba en los couts de la main.
 		cout<<endl<<"tiempo: "<<horas<<": "<<minutos<<": "<<segundos<<": ";
@@ -1358,7 +1364,7 @@ int main (){
 		int jugadas=0;
 		int pos_fila;
 		int pos_columna;
-		cout<<"Este es un buscaminas de 16x16, contiene 40 minas"<<endl<<"Escribir una coordenada en mayuscula para destapar la casilla y en minuscula para colocar una bandera sobre una mina"<<endl;
+		cout<<"Este es un buscaminas de 16x16, contiene 40 minas"<<endl<<"Escribir una coordenada en may�scula para destapar la casilla y en min�scula para colocar una bandera sobre una mina"<<endl;
 		cout<<"Sistema coordenado:"<<endl;
 		cout<<"   "<<"A"<<" "<<"B"<<" "<<"C"<<" "<<"D"<<" "<<"E"<<" "<<"F"<<" "<<"G"<<" "<<"H"<<" "<<"I"<<" "<<"J"<<" "<<"K"<<" "<<"L"<<" "<<"M"<<" "<<"N"<<" "<<"O"<<" "<<"P"<<endl;
 		cout<<" 1"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
@@ -1513,7 +1519,7 @@ int main (){
 						}
 						reimprimir_matriz_16(matriz_char_40);
 						correr_juego=false;
-						cout<<"Usted oprimio una mina, usted perdio";
+						cout<<"Usted oprimi� una mina, usted perdi�";
 					}
 				}
 				if(jugada[0]>='a' && jugada[0]<='p'){
@@ -1537,7 +1543,7 @@ int main (){
 						}
 					}
 					else{
-						cout<<endl<<"Este numero ya esta marcado como un espacio libre de minas"<<endl;
+						cout<<endl<<"Este n�mero ya esta marcado como un espacio libre de minas"<<endl;
 						reimprimir_matriz_16(matriz_char_40);
 					}
 				}
@@ -1558,7 +1564,7 @@ int main (){
 					}
 					if(cerrar_ciclo_16x16==true){
 						correr_juego=false;
-						cout<<endl<<"Â¡Felicidades usted ha ganado el nivel medio!"<<endl;
+						cout<<endl<<"�Felicidades usted ha ganado el nivel medio!"<<endl;
 						int tiempoTotal = horas*3600 + minutos*60 + segundos;
 						int puntaje = calcularPuntaje(tiempoTotal,2);
 						guardarJugador(ranking, n, nombreJugador, tiempoTotal, puntaje);
@@ -1570,7 +1576,7 @@ int main (){
 				jugadas++;
 			}
 			else{
-				cout<<"Casilla del tablero no valida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;	
+				cout<<"Casilla del tablero no v�lida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;	
 				reimprimir_matriz_16(matriz_char_40);
 			}
 		}
@@ -1583,7 +1589,7 @@ int main (){
 		int jugadas=0;
 		int pos_fila;
 		int pos_columna;
-		cout<<"Este es un buscaminas de 16x30, contiene 40 minas"<<endl<<"Escribir una coordenada, en mayuscula para destapar la casilla y en minuscula para colocar una bandera sobre una mina"<<endl;
+		cout<<"Este es un buscaminas de 16x30, contiene 40 minas"<<endl<<"Escribir una coordenada, en may�scula para destapar la casilla y en minusc�la para colocar una bandera sobre una mina"<<endl;
 		cout<<"Sistema coordenado:"<<endl;
 		cout<<"   "<<"A"<<" "<<"B"<<" "<<"C"<<" "<<"D"<<" "<<"E"<<" "<<"F"<<" "<<"G"<<" "<<"H"<<" "<<"I"<<" "<<"J"<<" "<<"K"<<" "<<"L"<<" "<<"M"<<" "<<"N"<<" "<<"O"<<" "<<"P"<<" "<<"Q"<<" "<<"R"<<" "<<"S"<<" "<<"T"<<" "<<"U"<<" "<<"V"<<" "<<"W"<<" "<<"X"<<" "<<"Y"<<" "<<"Z"<<endl;
 		cout<<" 1"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
@@ -1777,7 +1783,7 @@ int main (){
 							}
 						}
 						reimprimir_matriz_26(matriz_char_80);
-						cout<<"Usted oprimio una mina, usted perdio";
+						cout<<"Usted oprimi� una mina, usted perdi�";
 					}
 				}
 				if(jugada[0]>='a' && jugada[0]<='p'){
@@ -1801,7 +1807,7 @@ int main (){
 						}
 					}
 					else{
-						cout<<endl<<"Este numero ya esta marcado como un espacio libre de minas"<<endl;
+						cout<<endl<<"Este n�mero ya esta marcado como un espacio libre de minas"<<endl;
 						reimprimir_matriz_26(matriz_char_80);
 					}
 				}
@@ -1822,7 +1828,7 @@ int main (){
 					}
 					if(cerrar_ciclo_16x26==true){
 						correr_juego=false;
-						cout<<endl<<"Â¡Felicidades usted ha ganado el nivel dificil!"<<endl;
+						cout<<endl<<"�Felicidades usted ha ganado el nivel dif�cil!"<<endl;
 						int tiempoTotal = horas*3600 + minutos*60 + segundos;
 						int puntaje = calcularPuntaje(tiempoTotal,3);
 						guardarJugador(ranking, n, nombreJugador , tiempoTotal, puntaje);
@@ -1834,11 +1840,11 @@ int main (){
 				jugadas++;
 			}
 			else{
-				cout<<"Casilla del tablero no valida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;	
+				cout<<"Casilla del tablero no v�lida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;	
 				reimprimir_matriz_26(matriz_char_80);
 			}
 		}
 		cronometro.join();
-		cout<<endl<<"tiempo: "<<horas<<": "<<minutos<<": "<<segundos<<": ";cout<<"Casilla del tablero no valida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;
+		cout<<endl<<"tiempo: "<<horas<<": "<<minutos<<": "<<segundos<<": ";
 	}
 }
