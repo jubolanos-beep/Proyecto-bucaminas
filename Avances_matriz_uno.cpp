@@ -1192,7 +1192,9 @@ int main (){
 	int nivel;
 	cout<<"Escoja un nivel: "<<endl;
 	cin>>nivel;
-	while(nivel<1 || nivel>3){
+	while(cin.fail() || nivel<1 || nivel>3){
+		cin.clear();
+		cin.ignore(1000, '\n');
 		cout<<"Solo puede escoger un nivel escribiendo un número del 1 al 3"<<endl<<"Escoja un nivel: "<<endl;
 		cin>>nivel;
 	}
