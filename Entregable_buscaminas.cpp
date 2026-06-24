@@ -14,7 +14,7 @@ using namespace std;
 int matriz_random_10_minas[8][8]={0};
 int matriz_random_40_minas[16][16]={0};
 int matriz_random_80_minas[16][26]={0};
-//Booleano que permitira¡ continuar y parar el cronometro
+//Booleano que permitira¡ continuar y parar el  cronometro
 bool correr_juego=true; 
 int segundos=0;
 int minutos=0;
