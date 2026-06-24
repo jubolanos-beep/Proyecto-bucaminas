@@ -1192,418 +1192,189 @@ int main (){
 				getline(cin,nombreJugador);
 			}
 			cout<<endl;
-	cout<<"BUSCAMINAS"<<endl<<"Escoja el nivel que desea jugar"<<endl<<"Oprima 1 para fácil (8x8)"<<endl<<"Oprima 2 para medio (16x16)"<<endl<<"Oprima 3 para difícil (16x26)"<<endl;
-	int nivel;
-	cout<<"Escoja un nivel: "<<endl;
-	cin>>nivel;
-	while(cin.fail() || nivel<1 || nivel>3){
-		cin.clear();
-		cin.ignore(1000, '\n');
-		cout<<"Solo puede escoger un nivel escribiendo un número del 1 al 3"<<endl<<"Escoja un nivel: "<<endl;
+		cout<<"BUSCAMINAS"<<endl<<"Escoja el nivel que desea jugar"<<endl<<"Oprima 1 para fácil (8x8)"<<endl<<"Oprima 2 para medio (16x16)"<<endl<<"Oprima 3 para difícil (16x26)"<<endl;
+		int nivel;
+		cout<<"Escoja un nivel: "<<endl;
 		cin>>nivel;
-	}
-	//la funcion system ("cls"), permite limpiar la consola para la comodidad del usuario
-	system("cls");
-	if(nivel==1){
-		//Con thread se inicializan mas "hilos" en la ejecucion, que permiten que trozos de codigo se ejecuten a la vez que la funcion main, sin esto, el cronometro se quedara en un while infinito ya que nunca se llegara a la condicion de parada.
-		thread cronometro(tiempo);
-		cout<<endl;
-		//Esta variable ayuda a tener control de que la primera jugada siempre resulte en un 0
-		int jugadas=0;
-		//Las siguiente 2 variables permiten dar la ubicacion de las casillas
-		int pos_fila;
-		int pos_columna;
-		cout<<"Este es un buscaminas de 8x8, contiene 10 minas"<<endl<<"Escribir una coordenada en mayúscula para destapar la casilla y en minúscula para colocar una bandera sobre una mina"<<endl;
-		cout<<"Sistema coordenado:"<<endl;
-		cout<<"  "<<"A"<<" "<<"B"<<" "<<"C"<<" "<<"D"<<" "<<"E"<<" "<<"F"<<" "<<"G"<<" "<<"H"<<endl;
-		cout<<"1"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<"2"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<"3"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<"4"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<"5"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<"6"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<"7"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<"8"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		matriz_num_aleatorio(8,8);
-		asignar_casillas_8x8(matriz_random_10_minas);
-		//Declaro booleano para acabar la partida cuando se gane o se pierda.
-		bool cerrar_ciclo_8x8=false;
-		//Matriz de caracteres para mostrar al usuario 'X' e irlos cambiando a medida que va ingresando coordenadas, probablemente debamos agregarle una columna y una fila para las coordenadas
-		char matriz_char_10[8][8]={
-			{'X','X','X','X','X','X','X','X'},
-			{'X','X','X','X','X','X','X','X'},
-			{'X','X','X','X','X','X','X','X'},
-			{'X','X','X','X','X','X','X','X'},
-			{'X','X','X','X','X','X','X','X'},
-			{'X','X','X','X','X','X','X','X'},
-			{'X','X','X','X','X','X','X','X'},
-		    {'X','X','X','X','X','X','X','X'}
-		};
-		//Este contador denominado num_minas, muestra cuantas minas faltan por destapar 
-		int num_minas=10;
-		//Dentro de este ciclo se piden las jugadas del usuario
-		while (cerrar_ciclo_8x8==false){
-			string jugada;
-			cout<<endl<<"Minas: "<<num_minas;
-			cout<<endl<<"Escriba una casilla: ";
-			cin>>jugada;
-			//En estos case se separa la jugada como un vector de chars para pasar mÃ?Â¡s fÃ?Â¡cil las coordenadas a la matriz.
-			if (((jugada[0]>='a' && jugada[0]<='h')||(jugada[0]>='A' && jugada[0]<='H'))&&(jugada[1]>='0' && jugada[1]<='8')){
-				switch(jugada[0]){
-					case 'A': pos_columna=0;
-						 break;
-					case 'B': pos_columna=1;
-						break;
-					case 'C': pos_columna=2;
-						break;
-					case 'D': pos_columna=3;
-						break;
-					case 'E': pos_columna=4;
-						break;
-					case 'F': pos_columna=5;
-						break;
-					case 'G': pos_columna=6;
-						break;
-					case 'H': pos_columna=7;
-						break;
-					case 'a': pos_columna=0;
-						 break;
-					case 'b': pos_columna=1;
-						break;
-					case 'c': pos_columna=2;
-						break;
-					case 'd': pos_columna=3;
-						break;
-					case 'e': pos_columna=4;
-						break;
-					case 'f': pos_columna=5;
-						break;
-					case 'g': pos_columna=6;
-						break;
-					case 'h': pos_columna=7;
-						break;
-				}
-				pos_fila=(jugada[1]-'0')-1;
-			//En estos condicionales se cambia el espacio de las matrices, dependiendo de la coordenada escrita.
-				if(jugada[0]>='A' && jugada[0]<='H'){
-					if(jugadas==0){
-						//Este While inicializa la casilla oprimida en 0
-						while(matriz_random_10_minas[pos_fila][pos_columna]!=0){
-							matriz_num_aleatorio(8, 8);
-							asignar_casillas_8x8(matriz_random_10_minas);
-							cout<<"entró al while"<<endl;
-						}
+		while(cin.fail() || nivel<1 || nivel>3){
+			cin.clear();
+			cin.ignore(1000, '\n');
+			cout<<"Solo puede escoger un nivel escribiendo un número del 1 al 3"<<endl<<"Escoja un nivel: "<<endl;
+			cin>>nivel;
+		}
+		//la funcion system ("cls"), permite limpiar la consola para la comodidad del usuario
+		system("cls");
+		if(nivel==1){
+			//Con thread se inicializan mas "hilos" en la ejecucion, que permiten que trozos de codigo se ejecuten a la vez que la funcion main, sin esto, el cronometro se quedara en un while infinito ya que nunca se llegara a la condicion de parada.
+			thread cronometro(tiempo);
+			cout<<endl;
+			//Esta variable ayuda a tener control de que la primera jugada siempre resulte en un 0
+			int jugadas=0;
+			//Las siguiente 2 variables permiten dar la ubicacion de las casillas
+			int pos_fila;
+			int pos_columna;
+			cout<<"Este es un buscaminas de 8x8, contiene 10 minas"<<endl<<"Escribir una coordenada en mayúscula para destapar la casilla y en minúscula para colocar una bandera sobre una mina"<<endl;
+			cout<<"Sistema coordenado:"<<endl;
+			cout<<"  "<<"A"<<" "<<"B"<<" "<<"C"<<" "<<"D"<<" "<<"E"<<" "<<"F"<<" "<<"G"<<" "<<"H"<<endl;
+			cout<<"1"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<"2"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<"3"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<"4"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<"5"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<"6"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<"7"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<"8"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			matriz_num_aleatorio(8,8);
+			asignar_casillas_8x8(matriz_random_10_minas);
+			//Declaro booleano para acabar la partida cuando se gane o se pierda.
+			bool cerrar_ciclo_8x8=false;
+			//Matriz de caracteres para mostrar al usuario 'X' e irlos cambiando a medida que va ingresando coordenadas, probablemente debamos agregarle una columna y una fila para las coordenadas
+			char matriz_char_10[8][8]={
+				{'X','X','X','X','X','X','X','X'},
+				{'X','X','X','X','X','X','X','X'},
+				{'X','X','X','X','X','X','X','X'},
+				{'X','X','X','X','X','X','X','X'},
+				{'X','X','X','X','X','X','X','X'},
+				{'X','X','X','X','X','X','X','X'},
+				{'X','X','X','X','X','X','X','X'},
+			    {'X','X','X','X','X','X','X','X'}
+			};
+			//Este contador denominado num_minas, muestra cuantas minas faltan por destapar 
+			int num_minas=10;
+			//Dentro de este ciclo se piden las jugadas del usuario
+			while (cerrar_ciclo_8x8==false){
+				string jugada;
+				cout<<endl<<"Minas: "<<num_minas;
+				cout<<endl<<"Escriba una casilla: ";
+				cin>>jugada;
+				//En estos case se separa la jugada como un vector de chars para pasar mÃ?Â¡s fÃ?Â¡cil las coordenadas a la matriz.
+				if (((jugada[0]>='a' && jugada[0]<='h')||(jugada[0]>='A' && jugada[0]<='H'))&&(jugada[1]>='0' && jugada[1]<='8')){
+					switch(jugada[0]){
+						case 'A': pos_columna=0;
+							 break;
+						case 'B': pos_columna=1;
+							break;
+						case 'C': pos_columna=2;
+							break;
+						case 'D': pos_columna=3;
+							break;
+						case 'E': pos_columna=4;
+							break;
+						case 'F': pos_columna=5;
+							break;
+						case 'G': pos_columna=6;
+							break;
+						case 'H': pos_columna=7;
+							break;
+						case 'a': pos_columna=0;
+							 break;
+						case 'b': pos_columna=1;
+							break;
+						case 'c': pos_columna=2;
+							break;
+						case 'd': pos_columna=3;
+							break;
+						case 'e': pos_columna=4;
+							break;
+						case 'f': pos_columna=5;
+							break;
+						case 'g': pos_columna=6;
+							break;
+						case 'h': pos_columna=7;
+							break;
 					}
-					//En caso de oprimir una casilla correcta:
-					if(matriz_random_10_minas[pos_fila][pos_columna]!=9){
-						matriz_char_10[pos_fila][pos_columna]=matriz_random_10_minas[pos_fila][pos_columna]+'0';
-						limpiar_casillas_8(matriz_char_10, matriz_random_10_minas);
-						if(matriz_char_10[pos_fila][pos_columna]=='b' && num_minas<11){
-							//Las 'b' indican banderas que pone el usuario cuando ingresa coordenadas en minuscula
-							num_minas++;
-						}
-						system("cls");
-						reimprimir_matriz_8(matriz_char_10);
-					}
-					//Si el jugador pierde:
-					else{
-						cerrar_ciclo_8x8=true;
-						//Cada vez que se cierre el juego el booleano del cronometro se vuelve false
-						correr_juego=false;
-						for (int i=0; i<8; i++){
-							for(int j=0; j<8; j++){
-								if(matriz_random_10_minas[i][j]==9){
-									matriz_char_10[i][j]='M';
-								}
+					pos_fila=(jugada[1]-'0')-1;
+				//En estos condicionales se cambia el espacio de las matrices, dependiendo de la coordenada escrita.
+					if(jugada[0]>='A' && jugada[0]<='H'){
+						if(jugadas==0){
+							//Este While inicializa la casilla oprimida en 0
+							while(matriz_random_10_minas[pos_fila][pos_columna]!=0){
+								matriz_num_aleatorio(8, 8);
+								asignar_casillas_8x8(matriz_random_10_minas);
+								cout<<"entró al while"<<endl;
 							}
 						}
-						system("cls");
-						reimprimir_matriz_8(matriz_char_10);
-						cout<<"Usted oprimió una mina, usted perdió";
-					}
-				}
-				if(jugada[0]>='a' && jugada[0]<='h'){
-					if(jugadas==0){
-						//Esto permite mantener la comodidad inicial al usuario si por alguna razon marca una bandera en la primera jugada
-						jugadas--;
-					}
-					//Si el usuario desea marcar una mina
-					if(matriz_char_10[pos_fila][pos_columna]=='X'|| matriz_char_10[pos_fila][pos_columna]=='b'){
-						if(matriz_char_10[pos_fila][pos_columna]=='X'){
-							matriz_char_10[pos_fila][pos_columna]='b';
+						//En caso de oprimir una casilla correcta:
+						if(matriz_random_10_minas[pos_fila][pos_columna]!=9){
+							matriz_char_10[pos_fila][pos_columna]=matriz_random_10_minas[pos_fila][pos_columna]+'0';
+							limpiar_casillas_8(matriz_char_10, matriz_random_10_minas);
+							if(matriz_char_10[pos_fila][pos_columna]=='b' && num_minas<11){
+								//Las 'b' indican banderas que pone el usuario cuando ingresa coordenadas en minuscula
+								num_minas++;
+							}
 							system("cls");
 							reimprimir_matriz_8(matriz_char_10);
-							if(num_minas>0){
-								num_minas--;
-							}
 						}
-						//Si el usuario desea desmarcar una mina
-						else {
-							if (matriz_char_10[pos_fila][pos_columna]=='b'){
-								matriz_char_10[pos_fila][pos_columna]='X';
+						//Si el jugador pierde:
+						else{
+							cerrar_ciclo_8x8=true;
+							//Cada vez que se cierre el juego el booleano del cronometro se vuelve false
+							correr_juego=false;
+							for (int i=0; i<8; i++){
+								for(int j=0; j<8; j++){
+									if(matriz_random_10_minas[i][j]==9){
+										matriz_char_10[i][j]='M';
+									}
+								}
+							}
+							system("cls");
+							reimprimir_matriz_8(matriz_char_10);
+							cout<<"Usted oprimió una mina, usted perdió";
+						}
+					}
+					if(jugada[0]>='a' && jugada[0]<='h'){
+						if(jugadas==0){
+							//Esto permite mantener la comodidad inicial al usuario si por alguna razon marca una bandera en la primera jugada
+							jugadas--;
+						}
+						//Si el usuario desea marcar una mina
+						if(matriz_char_10[pos_fila][pos_columna]=='X'|| matriz_char_10[pos_fila][pos_columna]=='b'){
+							if(matriz_char_10[pos_fila][pos_columna]=='X'){
+								matriz_char_10[pos_fila][pos_columna]='b';
 								system("cls");
 								reimprimir_matriz_8(matriz_char_10);
-								num_minas++;
+								if(num_minas>0){
+									num_minas--;
+								}
 							}
-						}
-					}
-					//Si el usuario intenta marcar como bandera un numero ya colocado
-					else{
-						system("cls");
-						cout<<endl<<"Este número ya esta marcado como un espacio libre de minas"<<endl;
-						reimprimir_matriz_8(matriz_char_10);
-					}
-				}
-		//Este for indica que el programa para cuando se llena la matriz de caracteres
-			if(cerrar_ciclo_8x8==false){
-				for (int i=0; i<8; i++){
-					for (int j=0; j<8; j++){
-						if (matriz_char_10[i][j]!='X'){
-							cerrar_ciclo_8x8=true;
-						}
-						else{
-						cerrar_ciclo_8x8=false;
-						break;
-						}
-					}
-					if (cerrar_ciclo_8x8==false){
-						break;
-					}
-				}
-				if(cerrar_ciclo_8x8==true){
-					correr_juego=false;
-					cout<<endl<<"¡Felicidades usted ha ganado el nivel fácil!"<<endl;
-					int tiempoTotal = horas*3600 + minutos*60 + segundos;
-					int puntaje = calcularPuntaje(tiempoTotal,1);
-					guardarJugador(ranking, n, nombreJugador, tiempoTotal, puntaje);
-					ordenarRanking(ranking,n);
-					mostrarRanking(ranking, n);
-					guardarRankingEnArchivo(ranking, n, nombreArchivo);
-				}
-			}
-			jugadas++;
-			}
-			//Si el usuario ingresa algun string que no sea válido
-			else{
-				system("cls");
-				cout<<"Casilla del tablero no válida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;	
-				reimprimir_matriz_8(matriz_char_10);
-			}
-		}
-		//Antes de continuar con la ejecucion principal el .join() espera a que el hilo del cronometro finalice 
-		cronometro.join();
-		//Se mostrara el tiempo solo cuando el usuario haya ganado para evitar que este se sobreescriba en los couts de la main.
-		cout<<endl<<"tiempo: "<<horas<<": "<<minutos<<": "<<segundos<<": ";
-	}
-	//Nivel 2
-	if(nivel==2){
-		thread cronometro(tiempo);
-		int jugadas=0;
-		int pos_fila;
-		int pos_columna;
-		cout<<"Este es un buscaminas de 16x16, contiene 40 minas"<<endl<<"Escribir una coordenada en mayúscula para destapar la casilla y en minúscula para colocar una bandera sobre una mina"<<endl;
-		cout<<"Sistema coordenado:"<<endl;
-		cout<<"   "<<"A"<<" "<<"B"<<" "<<"C"<<" "<<"D"<<" "<<"E"<<" "<<"F"<<" "<<"G"<<" "<<"H"<<" "<<"I"<<" "<<"J"<<" "<<"K"<<" "<<"L"<<" "<<"M"<<" "<<"N"<<" "<<"O"<<" "<<"P"<<endl;
-		cout<<" 1"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<" 2"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<" 3"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<" 4"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<" 5"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<" 6"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<" 7"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<" 8"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<" 9"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<"10"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<"11"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<"12"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<"13"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<"14"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<"15"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<"16"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		matriz_num_aleatorio(16, 16);
-		asignar_casillas_16x16(matriz_random_40_minas);
-		bool cerrar_ciclo_16x16=false;
-		char matriz_char_40[16][16]={
-			{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-			{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-			{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-			{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-			{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-			{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-			{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-		    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-		    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-		    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-		    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-		    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-		    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-		    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-		    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-		    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-		};
-		int num_minas=40;
-		while(cerrar_ciclo_16x16==false){
-			string jugada;
-			cout<<endl<<"Minas: "<<num_minas;
-			cout<<endl<<"Escriba una casilla: ";
-			cin>>jugada;
-			system("cls");
-			if (((jugada[0]>='a' && jugada[0]<='p')||(jugada[0]>='A' && jugada[0]<='P'))&&(jugada[1]>='0' && jugada[1]<='16')){
-				switch(jugada[0]){
-					case 'A': pos_columna=0;
-						 break;
-					case 'B': pos_columna=1;
-						break;
-					case 'C': pos_columna=2;
-						break;
-					case 'D': pos_columna=3;
-						break;
-					case 'E': pos_columna=4;
-						break;
-					case 'F': pos_columna=5;
-						break;
-					case 'G': pos_columna=6;
-						break;
-					case 'H': pos_columna=7;
-						break;
-					case 'I': pos_columna=8;
-						 break;
-					case 'J': pos_columna=9;
-						break;
-					case 'K': pos_columna=10;
-						break;
-					case 'L': pos_columna=11;
-						break;
-					case 'M': pos_columna=12;
-						break;
-					case 'N': pos_columna=13;
-						break;
-					case 'O': pos_columna=14;
-						break;
-					case 'P': pos_columna=15;
-						break;
-					case 'a': pos_columna=0;
-						 break;
-					case 'b': pos_columna=1;
-						break;
-					case 'c': pos_columna=2;
-						break;
-					case 'd': pos_columna=3;
-						break;
-					case 'e': pos_columna=4;
-						break;
-					case 'f': pos_columna=5;
-						break;
-					case 'g': pos_columna=6;
-						break;
-					case 'h': pos_columna=7;
-						break;
-					case 'i': pos_columna=8;
-						 break;
-					case 'j': pos_columna=9;
-						break;
-					case 'k': pos_columna=10;
-						break;
-					case 'l': pos_columna=11;
-						break;
-					case 'm': pos_columna=12;
-						break;
-					case 'n': pos_columna=13;
-						break;
-					case 'o': pos_columna=14;
-						break;
-					case 'p': pos_columna=15;
-						break;
-				}
-				pos_fila=(jugada[1]-'0')-1;
-				switch(jugada[2]){
-					case '0': pos_fila=9;
-						break;
-					case '1': pos_fila=10;
-						break;
-					case '2': pos_fila=11;
-						break;
-					case '3': pos_fila=12;
-						break;
-					case '4': pos_fila=13;
-						break;
-					case '5': pos_fila=14;
-						break;
-					case '6': pos_fila=15;
-						break;
-				}
-				if(jugada[0]>='A' && jugada[0]<='P'){
-					if(jugadas==0){
-						while(matriz_random_40_minas[pos_fila][pos_columna]!=0){
-							matriz_num_aleatorio(16, 16);
-							asignar_casillas_16x16(matriz_random_40_minas);
-						}
-					}
-					if(matriz_random_40_minas[pos_fila][pos_columna]!=9){
-						matriz_char_40[pos_fila][pos_columna]=matriz_random_40_minas[pos_fila][pos_columna]+'0';
-						limpiar_casillas_16(matriz_char_40, matriz_random_40_minas);
-						reimprimir_matriz_16(matriz_char_40);
-					}
-					else{
-						cerrar_ciclo_16x16=true;
-						
-						for (int i=0; i<16; i++){
-							for(int j=0; j<16; j++){
-								if(matriz_random_40_minas[i][j]==9){
-									matriz_char_40[i][j]='M';
+							//Si el usuario desea desmarcar una mina
+							else {
+								if (matriz_char_10[pos_fila][pos_columna]=='b'){
+									matriz_char_10[pos_fila][pos_columna]='X';
+									system("cls");
+									reimprimir_matriz_8(matriz_char_10);
+									num_minas++;
 								}
 							}
 						}
-						reimprimir_matriz_16(matriz_char_40);
-						correr_juego=false;
-						cout<<"Usted oprimió una mina, usted perdió";
-					}
-				}
-				if(jugada[0]>='a' && jugada[0]<='p'){
-					if(jugadas==0){
-						jugadas--;
-					}
-					if(matriz_char_40[pos_fila][pos_columna]=='X'|| matriz_char_40[pos_fila][pos_columna]=='b'){
-						if(matriz_char_40[pos_fila][pos_columna]=='X'){
-							matriz_char_40[pos_fila][pos_columna]='b';
-							reimprimir_matriz_16(matriz_char_40);
-							if (num_minas>0){
-								num_minas--;
-							}
-						}
-						else {
-							if (matriz_char_40[pos_fila][pos_columna]=='b'){
-								matriz_char_40[pos_fila][pos_columna]='X';
-								reimprimir_matriz_16(matriz_char_40);
-								num_minas++;
-							}
+						//Si el usuario intenta marcar como bandera un numero ya colocado
+						else{
+							system("cls");
+							cout<<endl<<"Este número ya esta marcado como un espacio libre de minas"<<endl;
+							reimprimir_matriz_8(matriz_char_10);
 						}
 					}
-					else{
-						cout<<endl<<"Este número ya esta marcado como un espacio libre de minas"<<endl;
-						reimprimir_matriz_16(matriz_char_40);
-					}
-				}
-				if(cerrar_ciclo_16x16==false){
-					for (int i=0; i<16; i++){
-						for (int j=0; j<16; j++){
-							if (matriz_char_40[i][j]!='X'){
-								cerrar_ciclo_16x16=true;
+			//Este for indica que el programa para cuando se llena la matriz de caracteres
+				if(cerrar_ciclo_8x8==false){
+					for (int i=0; i<8; i++){
+						for (int j=0; j<8; j++){
+							if (matriz_char_10[i][j]!='X'){
+								cerrar_ciclo_8x8=true;
 							}
 							else{
-								cerrar_ciclo_16x16=false;
-								break;
+							cerrar_ciclo_8x8=false;
+							break;
 							}
 						}
-						if (cerrar_ciclo_16x16==false){
+						if (cerrar_ciclo_8x8==false){
 							break;
 						}
 					}
-					if(cerrar_ciclo_16x16==true){
+					if(cerrar_ciclo_8x8==true){
 						correr_juego=false;
-						cout<<endl<<"¡Felicidades usted ha ganado el nivel medio!"<<endl;
+						cout<<endl<<"¡Felicidades usted ha ganado el nivel fácil!"<<endl;
 						int tiempoTotal = horas*3600 + minutos*60 + segundos;
-						int puntaje = calcularPuntaje(tiempoTotal,2);
+						int puntaje = calcularPuntaje(tiempoTotal,1);
 						guardarJugador(ranking, n, nombreJugador, tiempoTotal, puntaje);
 						ordenarRanking(ranking,n);
 						mostrarRanking(ranking, n);
@@ -1611,282 +1382,509 @@ int main (){
 					}
 				}
 				jugadas++;
+				}
+				//Si el usuario ingresa algun string que no sea válido
+				else{
+					system("cls");
+					cout<<"Casilla del tablero no válida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;	
+					reimprimir_matriz_8(matriz_char_10);
+				}
 			}
-			else{
-				cout<<"Casilla del tablero no válida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;	
-				reimprimir_matriz_16(matriz_char_40);
-			}
+			//Antes de continuar con la ejecucion principal el .join() espera a que el hilo del cronometro finalice 
+			cronometro.join();
+			//Se mostrara el tiempo solo cuando el usuario haya ganado para evitar que este se sobreescriba en los couts de la main.
+			cout<<endl<<"tiempo: "<<horas<<": "<<minutos<<": "<<segundos<<": ";
 		}
-		cronometro.join();
-		cout<<endl<<"tiempo: "<<horas<<": "<<minutos<<": "<<segundos<<": ";
-	}
-	//Nivel 3
-	if(nivel==3){
-		thread cronometro(tiempo);
-		int jugadas=0;
-		int pos_fila;
-		int pos_columna;
-		cout<<"Este es un buscaminas de 16x26, contiene 80 minas"<<endl<<"Escribir una coordenada, en mayúscula para destapar la casilla y en minuscúla para colocar una bandera sobre una mina"<<endl;
-		cout<<"Sistema coordenado:"<<endl;
-		cout<<"   "<<"A"<<" "<<"B"<<" "<<"C"<<" "<<"D"<<" "<<"E"<<" "<<"F"<<" "<<"G"<<" "<<"H"<<" "<<"I"<<" "<<"J"<<" "<<"K"<<" "<<"L"<<" "<<"M"<<" "<<"N"<<" "<<"O"<<" "<<"P"<<" "<<"Q"<<" "<<"R"<<" "<<"S"<<" "<<"T"<<" "<<"U"<<" "<<"V"<<" "<<"W"<<" "<<"X"<<" "<<"Y"<<" "<<"Z"<<endl;
-		cout<<" 1"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<" 2"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<" 3"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<" 4"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<" 5"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<" 6"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<" 7"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<" 8"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<" 9"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<"10"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<"11"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<"12"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<"13"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<"14"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<"15"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		cout<<"16"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
-		matriz_num_aleatorio(16, 26);
-		asignar_casillas_16x26(matriz_random_80_minas);
-		bool cerrar_ciclo_16x26=false;
-		char matriz_char_80[16][26]={
-			{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-			{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-			{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-			{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-			{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-			{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-			{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-		    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-		    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-		    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-		    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-		    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-		    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-		    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-		    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
-		    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'}
-		};
-		int num_minas=80;
-		while(cerrar_ciclo_16x26==false){
-			string jugada;
-			cout<<endl<<"Minas: "<<num_minas;
-			cout<<endl<<"Escriba una casilla: ";
-			cin>>jugada;
-			system("cls");
-			if (((jugada[0]>='a' && jugada[0]<='z')||(jugada[0]>='A' && jugada[0]<='Z'))&&(jugada[1]>='0' && jugada[1]<='16')){
-				switch(jugada[0]){
-					case 'A': pos_columna=0;
-						 break;
-					case 'B': pos_columna=1;
-						break;
-					case 'C': pos_columna=2;
-						break;
-					case 'D': pos_columna=3;
-						break;
-					case 'E': pos_columna=4;
-						break;
-					case 'F': pos_columna=5;
-						break;
-					case 'G': pos_columna=6;
-						break;
-					case 'H': pos_columna=7;
-						break;
-					case 'I': pos_columna=8;
-						 break;
-					case 'J': pos_columna=9;
-						break;
-					case 'K': pos_columna=10;
-						break;
-					case 'L': pos_columna=11;
-						break;
-					case 'M': pos_columna=12;
-						break;
-					case 'N': pos_columna=13;
-						break;
-					case 'O': pos_columna=14;
-						break;
-					case 'P': pos_columna=15;
-						break;
-					case 'Q': pos_columna=16;
-						 break;
-					case 'R': pos_columna=17;
-						break;
-					case 'S': pos_columna=18;
-						break;
-					case 'T': pos_columna=19;
-						break;
-					case 'U': pos_columna=20;
-						break;
-					case 'V': pos_columna=21;
-						break;
-					case 'W': pos_columna=22;
-						break;
-					case 'X': pos_columna=23;
-						break;
-					case 'Y': pos_columna=24;
-						 break;
-					case 'Z': pos_columna=25;
-						break;
-					case 'a': pos_columna=0;
-						 break;
-					case 'b': pos_columna=1;
-						break;
-					case 'c': pos_columna=2;
-						break;
-					case 'd': pos_columna=3;
-						break;
-					case 'e': pos_columna=4;
-						break;
-					case 'f': pos_columna=5;
-						break;
-					case 'g': pos_columna=6;
-						break;
-					case 'h': pos_columna=7;
-						break;
-					case 'i': pos_columna=8;
-						 break;
-					case 'j': pos_columna=9;
-						break;
-					case 'k': pos_columna=10;
-						break;
-					case 'l': pos_columna=11;
-						break;
-					case 'm': pos_columna=12;
-						break;
-					case 'n': pos_columna=13;
-						break;
-					case 'o': pos_columna=14;
-						break;
-					case 'p': pos_columna=15;
-						break;
-					case 'q': pos_columna=16;
-						 break;
-					case 'r': pos_columna=17;
-						break;
-					case 's': pos_columna=18;
-						break;
-					case 't': pos_columna=19;
-						break;
-					case 'u': pos_columna=20;
-						break;
-					case 'v': pos_columna=21;
-						break;
-					case 'w': pos_columna=22;
-						break;
-					case 'x': pos_columna=23;
-						break;
-					case 'y': pos_columna=24;
-						 break;
-					case 'z': pos_columna=25;
-						break;
-				}
-				pos_fila=(jugada[1]-'0')-1;
-				switch(jugada[2]){
-					case '0': pos_fila=9;
-						break;
-					case '1': pos_fila=10;
-						break;
-					case '2': pos_fila=11;
-						break;
-					case '3': pos_fila=12;
-						break;
-					case '4': pos_fila=13;
-						break;
-					case '5': pos_fila=14;
-						break;
-					case '6': pos_fila=15;
-						break;
-				}
-				if(jugada[0]>='A' && jugada[0]<='Z'){
-					if(jugadas==0){
-						while(matriz_random_80_minas[pos_fila][pos_columna]!=0){
-							matriz_num_aleatorio(16, 26);
-							asignar_casillas_16x26(matriz_random_80_minas);
+		//Nivel 2
+		if(nivel==2){
+			thread cronometro(tiempo);
+			int jugadas=0;
+			int pos_fila;
+			int pos_columna;
+			cout<<"Este es un buscaminas de 16x16, contiene 40 minas"<<endl<<"Escribir una coordenada en mayúscula para destapar la casilla y en minúscula para colocar una bandera sobre una mina"<<endl;
+			cout<<"Sistema coordenado:"<<endl;
+			cout<<"   "<<"A"<<" "<<"B"<<" "<<"C"<<" "<<"D"<<" "<<"E"<<" "<<"F"<<" "<<"G"<<" "<<"H"<<" "<<"I"<<" "<<"J"<<" "<<"K"<<" "<<"L"<<" "<<"M"<<" "<<"N"<<" "<<"O"<<" "<<"P"<<endl;
+			cout<<" 1"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<" 2"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<" 3"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<" 4"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<" 5"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<" 6"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<" 7"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<" 8"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<" 9"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<"10"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<"11"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<"12"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<"13"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<"14"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<"15"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<"16"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			matriz_num_aleatorio(16, 16);
+			asignar_casillas_16x16(matriz_random_40_minas);
+			bool cerrar_ciclo_16x16=false;
+			char matriz_char_40[16][16]={
+				{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+				{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+				{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+				{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+				{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+				{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+				{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+			    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+			    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+			    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+			    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+			    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+			    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+			    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+			    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+			    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+			};
+			int num_minas=40;
+			while(cerrar_ciclo_16x16==false){
+				string jugada;
+				cout<<endl<<"Minas: "<<num_minas;
+				cout<<endl<<"Escriba una casilla: ";
+				cin>>jugada;
+				system("cls");
+				if (((jugada[0]>='a' && jugada[0]<='p')||(jugada[0]>='A' && jugada[0]<='P'))&&(jugada[1]>='0' && jugada[1]<='16')){
+					switch(jugada[0]){
+						case 'A': pos_columna=0;
+							 break;
+						case 'B': pos_columna=1;
+							break;
+						case 'C': pos_columna=2;
+							break;
+						case 'D': pos_columna=3;
+							break;
+						case 'E': pos_columna=4;
+							break;
+						case 'F': pos_columna=5;
+							break;
+						case 'G': pos_columna=6;
+							break;
+						case 'H': pos_columna=7;
+							break;
+						case 'I': pos_columna=8;
+							 break;
+						case 'J': pos_columna=9;
+							break;
+						case 'K': pos_columna=10;
+							break;
+						case 'L': pos_columna=11;
+							break;
+						case 'M': pos_columna=12;
+							break;
+						case 'N': pos_columna=13;
+							break;
+						case 'O': pos_columna=14;
+							break;
+						case 'P': pos_columna=15;
+							break;
+						case 'a': pos_columna=0;
+							 break;
+						case 'b': pos_columna=1;
+							break;
+						case 'c': pos_columna=2;
+							break;
+						case 'd': pos_columna=3;
+							break;
+						case 'e': pos_columna=4;
+							break;
+						case 'f': pos_columna=5;
+							break;
+						case 'g': pos_columna=6;
+							break;
+						case 'h': pos_columna=7;
+							break;
+						case 'i': pos_columna=8;
+							 break;
+						case 'j': pos_columna=9;
+							break;
+						case 'k': pos_columna=10;
+							break;
+						case 'l': pos_columna=11;
+							break;
+						case 'm': pos_columna=12;
+							break;
+						case 'n': pos_columna=13;
+							break;
+						case 'o': pos_columna=14;
+							break;
+						case 'p': pos_columna=15;
+							break;
+					}
+					pos_fila=(jugada[1]-'0')-1;
+					switch(jugada[2]){
+						case '0': pos_fila=9;
+							break;
+						case '1': pos_fila=10;
+							break;
+						case '2': pos_fila=11;
+							break;
+						case '3': pos_fila=12;
+							break;
+						case '4': pos_fila=13;
+							break;
+						case '5': pos_fila=14;
+							break;
+						case '6': pos_fila=15;
+							break;
+					}
+					if(jugada[0]>='A' && jugada[0]<='P'){
+						if(jugadas==0){
+							while(matriz_random_40_minas[pos_fila][pos_columna]!=0){
+								matriz_num_aleatorio(16, 16);
+								asignar_casillas_16x16(matriz_random_40_minas);
+							}
+						}
+						if(matriz_random_40_minas[pos_fila][pos_columna]!=9){
+							matriz_char_40[pos_fila][pos_columna]=matriz_random_40_minas[pos_fila][pos_columna]+'0';
+							limpiar_casillas_16(matriz_char_40, matriz_random_40_minas);
+							reimprimir_matriz_16(matriz_char_40);
+						}
+						else{
+							cerrar_ciclo_16x16=true;
+							
+							for (int i=0; i<16; i++){
+								for(int j=0; j<16; j++){
+									if(matriz_random_40_minas[i][j]==9){
+										matriz_char_40[i][j]='M';
+									}
+								}
+							}
+							reimprimir_matriz_16(matriz_char_40);
+							correr_juego=false;
+							cout<<"Usted oprimió una mina, usted perdió";
 						}
 					}
-					if(matriz_random_80_minas[pos_fila][pos_columna]!=9){
-						matriz_char_80[pos_fila][pos_columna]=matriz_random_80_minas[pos_fila][pos_columna]+'0';
-						limpiar_casillas_26(matriz_char_80, matriz_random_80_minas);
-						reimprimir_matriz_26(matriz_char_80);
-					}
-					else{
-						cerrar_ciclo_16x26=true;
-						correr_juego=false;
-						for (int i=0; i<16; i++){
-							for(int j=0; j<26; j++){
-								if(matriz_random_80_minas[i][j]==9){
-									matriz_char_80[i][j]='M';
+					if(jugada[0]>='a' && jugada[0]<='p'){
+						if(jugadas==0){
+							jugadas--;
+						}
+						if(matriz_char_40[pos_fila][pos_columna]=='X'|| matriz_char_40[pos_fila][pos_columna]=='b'){
+							if(matriz_char_40[pos_fila][pos_columna]=='X'){
+								matriz_char_40[pos_fila][pos_columna]='b';
+								reimprimir_matriz_16(matriz_char_40);
+								if (num_minas>0){
+									num_minas--;
+								}
+							}
+							else {
+								if (matriz_char_40[pos_fila][pos_columna]=='b'){
+									matriz_char_40[pos_fila][pos_columna]='X';
+									reimprimir_matriz_16(matriz_char_40);
+									num_minas++;
 								}
 							}
 						}
-						reimprimir_matriz_26(matriz_char_80);
-						cout<<"Usted oprimió una mina, usted perdió";
-					}
-				}
-				if(jugada[0]>='a' && jugada[0]<='p'){
-					if(jugadas==0){
-						jugadas--;
-					}
-					if(matriz_char_80[pos_fila][pos_columna]=='X'|| matriz_char_80[pos_fila][pos_columna]=='b'){
-						if(matriz_char_80[pos_fila][pos_columna]=='X'){
-							matriz_char_80[pos_fila][pos_columna]='b';
-							reimprimir_matriz_26(matriz_char_80);
-							if(num_minas>0){
-								num_minas--;
-							}
-						}
-						else {
-							if (matriz_char_80[pos_fila][pos_columna]=='b'){
-								matriz_char_80[pos_fila][pos_columna]='X';
-								reimprimir_matriz_26(matriz_char_80);
-								num_minas++;
-							}
+						else{
+							cout<<endl<<"Este número ya esta marcado como un espacio libre de minas"<<endl;
+							reimprimir_matriz_16(matriz_char_40);
 						}
 					}
-					else{
-						cout<<endl<<"Este nùmero ya esta marcado como un espacio libre de minas"<<endl;
-						reimprimir_matriz_26(matriz_char_80);
-					}
-				}
-				if(cerrar_ciclo_16x26==false){
-					for (int i=0; i<16; i++){
-						for (int j=0; j<26; j++){
-							if (matriz_char_80[i][j]!='X'){
-								cerrar_ciclo_16x26=true;
+					if(cerrar_ciclo_16x16==false){
+						for (int i=0; i<16; i++){
+							for (int j=0; j<16; j++){
+								if (matriz_char_40[i][j]!='X'){
+									cerrar_ciclo_16x16=true;
+								}
+								else{
+									cerrar_ciclo_16x16=false;
+									break;
+								}
 							}
-							else{
-								cerrar_ciclo_16x26=false;
+							if (cerrar_ciclo_16x16==false){
 								break;
 							}
 						}
-						if (cerrar_ciclo_16x26==false){
-							break;
+						if(cerrar_ciclo_16x16==true){
+							correr_juego=false;
+							cout<<endl<<"¡Felicidades usted ha ganado el nivel medio!"<<endl;
+							int tiempoTotal = horas*3600 + minutos*60 + segundos;
+							int puntaje = calcularPuntaje(tiempoTotal,2);
+							guardarJugador(ranking, n, nombreJugador, tiempoTotal, puntaje);
+							ordenarRanking(ranking,n);
+							mostrarRanking(ranking, n);
+							guardarRankingEnArchivo(ranking, n, nombreArchivo);
 						}
 					}
-					if(cerrar_ciclo_16x26==true){
-						correr_juego=false;
-						cout<<endl<<"¡Felicidades usted ha ganado el nivel difícil!"<<endl;
-						int tiempoTotal = horas*3600 + minutos*60 + segundos;
-						int puntaje = calcularPuntaje(tiempoTotal,3);
-						guardarJugador(ranking, n, nombreJugador , tiempoTotal, puntaje);
-						ordenarRanking(ranking, n);
-						mostrarRanking(ranking, n);
-						guardarRankingEnArchivo(ranking, n, nombreArchivo);
-					}
+					jugadas++;
 				}
-				jugadas++;
+				else{
+					cout<<"Casilla del tablero no válida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;	
+					reimprimir_matriz_16(matriz_char_40);
+				}
 			}
-			else{
-				cout<<"Casilla del tablero no válida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;	
-				reimprimir_matriz_26(matriz_char_80);
+			cronometro.join();
+			cout<<endl<<"tiempo: "<<horas<<": "<<minutos<<": "<<segundos<<": ";
+		}
+		//Nivel 3
+		if(nivel==3){
+			thread cronometro(tiempo);
+			int jugadas=0;
+			int pos_fila;
+			int pos_columna;
+			cout<<"Este es un buscaminas de 16x26, contiene 80 minas"<<endl<<"Escribir una coordenada, en mayúscula para destapar la casilla y en minuscúla para colocar una bandera sobre una mina"<<endl;
+			cout<<"Sistema coordenado:"<<endl;
+			cout<<"   "<<"A"<<" "<<"B"<<" "<<"C"<<" "<<"D"<<" "<<"E"<<" "<<"F"<<" "<<"G"<<" "<<"H"<<" "<<"I"<<" "<<"J"<<" "<<"K"<<" "<<"L"<<" "<<"M"<<" "<<"N"<<" "<<"O"<<" "<<"P"<<" "<<"Q"<<" "<<"R"<<" "<<"S"<<" "<<"T"<<" "<<"U"<<" "<<"V"<<" "<<"W"<<" "<<"X"<<" "<<"Y"<<" "<<"Z"<<endl;
+			cout<<" 1"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<" 2"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<" 3"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<" 4"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<" 5"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<" 6"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<" 7"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<" 8"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<" 9"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<"10"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<"11"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<"12"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<"13"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<"14"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<"15"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			cout<<"16"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
+			matriz_num_aleatorio(16, 26);
+			asignar_casillas_16x26(matriz_random_80_minas);
+			bool cerrar_ciclo_16x26=false;
+			char matriz_char_80[16][26]={
+				{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+				{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+				{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+				{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+				{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+				{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+				{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+			    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+			    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+			    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+			    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+			    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+			    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+			    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+			    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
+			    {'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'}
+			};
+			int num_minas=80;
+			while(cerrar_ciclo_16x26==false){
+				string jugada;
+				cout<<endl<<"Minas: "<<num_minas;
+				cout<<endl<<"Escriba una casilla: ";
+				cin>>jugada;
+				system("cls");
+				if (((jugada[0]>='a' && jugada[0]<='z')||(jugada[0]>='A' && jugada[0]<='Z'))&&(jugada[1]>='0' && jugada[1]<='16')){
+					switch(jugada[0]){
+						case 'A': pos_columna=0;
+							 break;
+						case 'B': pos_columna=1;
+							break;
+						case 'C': pos_columna=2;
+							break;
+						case 'D': pos_columna=3;
+							break;
+						case 'E': pos_columna=4;
+							break;
+						case 'F': pos_columna=5;
+							break;
+						case 'G': pos_columna=6;
+							break;
+						case 'H': pos_columna=7;
+							break;
+						case 'I': pos_columna=8;
+							 break;
+						case 'J': pos_columna=9;
+							break;
+						case 'K': pos_columna=10;
+							break;
+						case 'L': pos_columna=11;
+							break;
+						case 'M': pos_columna=12;
+							break;
+						case 'N': pos_columna=13;
+							break;
+						case 'O': pos_columna=14;
+							break;
+						case 'P': pos_columna=15;
+							break;
+						case 'Q': pos_columna=16;
+							 break;
+						case 'R': pos_columna=17;
+							break;
+						case 'S': pos_columna=18;
+							break;
+						case 'T': pos_columna=19;
+							break;
+						case 'U': pos_columna=20;
+							break;
+						case 'V': pos_columna=21;
+							break;
+						case 'W': pos_columna=22;
+							break;
+						case 'X': pos_columna=23;
+							break;
+						case 'Y': pos_columna=24;
+							 break;
+						case 'Z': pos_columna=25;
+							break;
+						case 'a': pos_columna=0;
+							 break;
+						case 'b': pos_columna=1;
+							break;
+						case 'c': pos_columna=2;
+							break;
+						case 'd': pos_columna=3;
+							break;
+						case 'e': pos_columna=4;
+							break;
+						case 'f': pos_columna=5;
+							break;
+						case 'g': pos_columna=6;
+							break;
+						case 'h': pos_columna=7;
+							break;
+						case 'i': pos_columna=8;
+							 break;
+						case 'j': pos_columna=9;
+							break;
+						case 'k': pos_columna=10;
+							break;
+						case 'l': pos_columna=11;
+							break;
+						case 'm': pos_columna=12;
+							break;
+						case 'n': pos_columna=13;
+							break;
+						case 'o': pos_columna=14;
+							break;
+						case 'p': pos_columna=15;
+							break;
+						case 'q': pos_columna=16;
+							 break;
+						case 'r': pos_columna=17;
+							break;
+						case 's': pos_columna=18;
+							break;
+						case 't': pos_columna=19;
+							break;
+						case 'u': pos_columna=20;
+							break;
+						case 'v': pos_columna=21;
+							break;
+						case 'w': pos_columna=22;
+							break;
+						case 'x': pos_columna=23;
+							break;
+						case 'y': pos_columna=24;
+							 break;
+						case 'z': pos_columna=25;
+							break;
+					}
+					pos_fila=(jugada[1]-'0')-1;
+					switch(jugada[2]){
+						case '0': pos_fila=9;
+							break;
+						case '1': pos_fila=10;
+							break;
+						case '2': pos_fila=11;
+							break;
+						case '3': pos_fila=12;
+							break;
+						case '4': pos_fila=13;
+							break;
+						case '5': pos_fila=14;
+							break;
+						case '6': pos_fila=15;
+							break;
+					}
+					if(jugada[0]>='A' && jugada[0]<='Z'){
+						if(jugadas==0){
+							while(matriz_random_80_minas[pos_fila][pos_columna]!=0){
+								matriz_num_aleatorio(16, 26);
+								asignar_casillas_16x26(matriz_random_80_minas);
+							}
+						}
+						if(matriz_random_80_minas[pos_fila][pos_columna]!=9){
+							matriz_char_80[pos_fila][pos_columna]=matriz_random_80_minas[pos_fila][pos_columna]+'0';
+							limpiar_casillas_26(matriz_char_80, matriz_random_80_minas);
+							reimprimir_matriz_26(matriz_char_80);
+						}
+						else{
+							cerrar_ciclo_16x26=true;
+							correr_juego=false;
+							for (int i=0; i<16; i++){
+								for(int j=0; j<26; j++){
+									if(matriz_random_80_minas[i][j]==9){
+										matriz_char_80[i][j]='M';
+									}
+								}
+							}
+							reimprimir_matriz_26(matriz_char_80);
+							cout<<"Usted oprimió una mina, usted perdió";
+						}
+					}
+					if(jugada[0]>='a' && jugada[0]<='p'){
+						if(jugadas==0){
+							jugadas--;
+						}
+						if(matriz_char_80[pos_fila][pos_columna]=='X'|| matriz_char_80[pos_fila][pos_columna]=='b'){
+							if(matriz_char_80[pos_fila][pos_columna]=='X'){
+								matriz_char_80[pos_fila][pos_columna]='b';
+								reimprimir_matriz_26(matriz_char_80);
+								if(num_minas>0){
+									num_minas--;
+								}
+							}
+							else {
+								if (matriz_char_80[pos_fila][pos_columna]=='b'){
+									matriz_char_80[pos_fila][pos_columna]='X';
+									reimprimir_matriz_26(matriz_char_80);
+									num_minas++;
+								}
+							}
+						}
+						else{
+							cout<<endl<<"Este nùmero ya esta marcado como un espacio libre de minas"<<endl;
+							reimprimir_matriz_26(matriz_char_80);
+						}
+					}
+					if(cerrar_ciclo_16x26==false){
+						for (int i=0; i<16; i++){
+							for (int j=0; j<26; j++){
+								if (matriz_char_80[i][j]!='X'){
+									cerrar_ciclo_16x26=true;
+								}
+								else{
+									cerrar_ciclo_16x26=false;
+									break;
+								}
+							}
+							if (cerrar_ciclo_16x26==false){
+								break;
+							}
+						}
+						if(cerrar_ciclo_16x26==true){
+							correr_juego=false;
+							cout<<endl<<"¡Felicidades usted ha ganado el nivel difícil!"<<endl;
+							int tiempoTotal = horas*3600 + minutos*60 + segundos;
+							int puntaje = calcularPuntaje(tiempoTotal,3);
+							guardarJugador(ranking, n, nombreJugador , tiempoTotal, puntaje);
+							ordenarRanking(ranking, n);
+							mostrarRanking(ranking, n);
+							guardarRankingEnArchivo(ranking, n, nombreArchivo);
+						}
+					}
+					jugadas++;
+				}
+				else{
+					cout<<"Casilla del tablero no válida, intente otra vez, escribiendo las coordenadas como se muestran en el tablero"<<endl;	
+					reimprimir_matriz_26(matriz_char_80);
+				}
 			}
+			cronometro.join();
+			cout<<endl<<"tiempo: "<<horas<<": "<<minutos<<": "<<segundos<<": ";
 		}
-		cronometro.join();
-		cout<<endl<<"tiempo: "<<horas<<": "<<minutos<<": "<<segundos<<": ";
-	}
-
-		}
-	}
 	
-
+			}
+		}	
 }
