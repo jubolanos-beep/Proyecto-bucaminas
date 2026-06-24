@@ -1187,6 +1187,10 @@ int main (){
 			cout<<"Ingrese su nombre: ";
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			getline(cin,nombreJugador);
+			while(nombreJugador.empty()){
+				cout<<"El nombre no puede estar vacio. Ingrese su nombre: ";
+				getline(cin,nombreJugador);
+			}
 			cout<<endl;
 	cout<<"BUSCAMINAS"<<endl<<"Escoja el nivel que desea jugar"<<endl<<"Oprima 1 para fácil (8x8)"<<endl<<"Oprima 2 para medio (16x16)"<<endl<<"Oprima 3 para difícil (16x26)"<<endl;
 	int nivel;
