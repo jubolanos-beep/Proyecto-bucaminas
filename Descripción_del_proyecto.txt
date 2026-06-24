@@ -2,5 +2,6 @@ Proyecto final: Grand Miner.
 Grupo 6_Programación de computadores.
 Integrantes: 
 Fabián Camilo Gómez Joya: fgomezjo@unal.edu.co
-Juan Jacobo Bolaños López
+Juan Jacobo Bolaños López: jubolanos@unal.edu.co
 Descripción: Grand Miner es un buscaminas programado en C++, que contiene 3 modos de juego: Fácil(tablero de 8x8) con 10 minas, medio(tablero de 16x16) con 40 minas y difícil(tablero de 16x26) con 80 minas. El buscaminas tiene un cronometro que permite dar un puntaje según la velocidad y el modo de juego que se resolvió y posteriormente ingresa los mejores puntajes en una lista que es mostrada cuando el usuario lo desea al inicio del juego y al final cuando gana una partida.
+Hay varios archivos que obedecen al proceso de creación del código en el repositorio remoto pero el archivo ejecutable final se llama Entregable_buscaminas.cpp
