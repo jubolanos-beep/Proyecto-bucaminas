@@ -8,6 +8,7 @@
 #include<fstream>
 #include<sstream>
 #include<locale>
+#include<limits>
 using namespace std;
 //Declaracion de las variables auxiliares globales para guardar las matrices que se procesen en las funciones
 int matriz_random_10_minas[8][8]={0};
@@ -853,7 +854,7 @@ void reimprimir_matriz_26(char matriz[16][26]){
 }
 //A continuacion agregue una funcionn que recorre la matriz y muestra los espacios adyacentes vacios: Si se oprime o muestra un 0, se mostrara¡ todas las casillas adyacentes, de esta forma, todas las casillas son numeros distintos de 0 o numeros.
 void limpiar_casillas_8(char matriz[8][8], int matriz_int [8][8]){
-	//Los ciclos iniciales recorren la matriz un nÃÂºmero de veces igual al del nÃÂºmero de columnas, con el de fin no dejar ningÃÂºn cero que no este rodeado por nÃÂºmeros.
+	//Los ciclos iniciales recorren la matriz un nÃ?Âºmero de veces igual al del nÃ?Âºmero de columnas, con el de fin no dejar ningÃ?Âºn cero que no este rodeado por nÃ?Âºmeros.
 	for (int c=0; c<8; c++){
 		if (matriz[0][0]=='0'){
 			//El +'0' indica que se pasa de un valor entero a un string
@@ -1181,11 +1182,13 @@ int main (){
 			salirPrograma = true;
 			return 0;
 		}
-	}
-	string nombreJugador;
-	cout<<"Ingrese su nombre: ";
-	getline(cin,nombreJugador);
-	cout<<"BUSCAMINAS"<<endl<<"Escoja el nivel que desea jugar"<<endl<<"Oprima 1 para fácil (8x8)"<<endl<<"Oprima 2 para medio (16x16)"<<endl<<"Oprima 3 para difícil (16x30)"<<endl<<"Oprima 4 para ver los mejores puntajes"<<endl;
+		if(opcionMenu == 1){
+			string nombreJugador;
+			cout<<"Ingrese su nombre: ";
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			getline(cin,nombreJugador);
+			cout<<endl;
+	cout<<"BUSCAMINAS"<<endl<<"Escoja el nivel que desea jugar"<<endl<<"Oprima 1 para fácil (8x8)"<<endl<<"Oprima 2 para medio (16x16)"<<endl<<"Oprima 3 para difícil (16x26)"<<endl;
 	int nivel;
 	cout<<"Escoja un nivel: "<<endl;
 	cin>>nivel;
@@ -1238,7 +1241,7 @@ int main (){
 			cout<<endl<<"Minas: "<<num_minas;
 			cout<<endl<<"Escriba una casilla: ";
 			cin>>jugada;
-			//En estos case se separa la jugada como un vector de chars para pasar mÃÂ¡s fÃÂ¡cil las coordenadas a la matriz.
+			//En estos case se separa la jugada como un vector de chars para pasar mÃ?Â¡s fÃ?Â¡cil las coordenadas a la matriz.
 			if (((jugada[0]>='a' && jugada[0]<='h')||(jugada[0]>='A' && jugada[0]<='H'))&&(jugada[1]>='0' && jugada[1]<='8')){
 				switch(jugada[0]){
 					case 'A': pos_columna=0;
@@ -1617,7 +1620,7 @@ int main (){
 		int jugadas=0;
 		int pos_fila;
 		int pos_columna;
-		cout<<"Este es un buscaminas de 16x30, contiene 40 minas"<<endl<<"Escribir una coordenada, en mayúscula para destapar la casilla y en minuscúla para colocar una bandera sobre una mina"<<endl;
+		cout<<"Este es un buscaminas de 16x26, contiene 80 minas"<<endl<<"Escribir una coordenada, en mayúscula para destapar la casilla y en minuscúla para colocar una bandera sobre una mina"<<endl;
 		cout<<"Sistema coordenado:"<<endl;
 		cout<<"   "<<"A"<<" "<<"B"<<" "<<"C"<<" "<<"D"<<" "<<"E"<<" "<<"F"<<" "<<"G"<<" "<<"H"<<" "<<"I"<<" "<<"J"<<" "<<"K"<<" "<<"L"<<" "<<"M"<<" "<<"N"<<" "<<"O"<<" "<<"P"<<" "<<"Q"<<" "<<"R"<<" "<<"S"<<" "<<"T"<<" "<<"U"<<" "<<"V"<<" "<<"W"<<" "<<"X"<<" "<<"Y"<<" "<<"Z"<<endl;
 		cout<<" 1"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<" "<<"X"<<endl;
@@ -1875,4 +1878,9 @@ int main (){
 		cronometro.join();
 		cout<<endl<<"tiempo: "<<horas<<": "<<minutos<<": "<<segundos<<": ";
 	}
+
+		}
+	}
+	
+
 }
