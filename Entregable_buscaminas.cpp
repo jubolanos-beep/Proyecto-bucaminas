@@ -1823,7 +1823,7 @@ int main (){
 						cout<<"Usted oprimió una mina, usted perdió";
 					}
 				}
-				if(jugada[0]>='a' && jugada[0]<='p'){
+				if(jugada[0]>='a' && jugada[0]<='z'){
 					if(jugadas==0){
 						jugadas--;
 					}
