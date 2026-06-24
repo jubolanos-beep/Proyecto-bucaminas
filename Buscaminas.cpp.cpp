@@ -18,6 +18,7 @@ bool correr_juego=true;
 int segundos=0;
 int minutos=0;
 int horas=0;
+char espacio;
 void tiempo(){
 	while(correr_juego==true){
 		if (segundos>=60){
@@ -1107,7 +1108,9 @@ void mostrarRanking(Jugador ranking[], int n){
 	cout<<"=========== MEJORES PUNTAJES ==========="<<endl;
 	for(int i = 0; i < n; i++){
 		cout<< i+ 1 <<". "<<ranking[i].nombre<<" | Tiempo: "<<ranking[i].tiempoJugado<<" Segundos"<<" | Puntaje: "<<ranking[i].puntaje<<endl;
+	
 	}
+	system("pause");
 }
 
 void cargarRanking(Jugador ranking[], int &n, string nombreArchivo){ //Esta funcion nos permite aplicar la lectura de archivos en los puntajes
@@ -1141,34 +1144,8 @@ void guardarRankingEnArchivo(Jugador ranking[], int n, string nombreArchivo){
 	archivo.close();
 }
 
-
-int main (){
-	//La funcion srand permite crear el numero aleatorio, inicialize con time(NULL) que equivale a los segundos transcurridos desde el 1 de enero 1970, sin meterlo en una variable.
-	//Esta funcion permite colocar tildes.
-	setlocale(LC_ALL, "spanish");
-	srand(time(NULL));
-	Jugador ranking[20];
-	int n = 0;
-	string nombreArchivo = "puntajes.txt";
-	cargarRanking(ranking,n,nombreArchivo);
-	string nombreJugador;
-	cout<<"Ingrese su nombre: ";
-	getline(cin,nombreJugador);
-	cout<<"BUSCAMINAS"<<endl<<"Escoja el nivel que desea jugar"<<endl<<"Oprima 1 para fácil (8x8)"<<endl<<"Oprima 2 para medio (16x16)"<<endl<<"Oprima 3 para difícil (16x30)"<<endl<<"Oprima 4 para ver los mejores puntajes"<<endl;
-	int nivel;
-	cout<<"Escoja un nivel: "<<endl;
-	cin>>nivel;
-	while(nivel<1 || nivel>4){
-		cout<<"Solo puede escoger un nivel escribiendo un número del 1 al 3"<<endl<<"Escoja un nivel: "<<endl;
-		cin>>nivel;
-	}
-	//la funcion system ("cls"), permite limpiar la consola para la comodidad del usuario
-	system("cls");
-	if(nivel==4){
-		mostrarRanking(ranking, 5);
-	}
-	if(nivel==1){
-		//Con thread se inicializan mas "hilos" en la ejecucion, que permiten que trozos de codigo se ejecuten a la vez que la funcion main, sin esto, el cronometro se quedara en un while infinito ya que nunca se llegara a la condicion de parada.
+void jugarNivelUno(Jugador ranking[], int n, string nombreJugador, string nombreArchivo){
+	//Con thread se inicializan mas "hilos" en la ejecucion, que permiten que trozos de codigo se ejecuten a la vez que la funcion main, sin esto, el cronometro se quedara en un while infinito ya que nunca se llegara a la condicion de parada.
 		thread cronometro(tiempo);
 		cout<<endl;
 		//Esta variable ayuda a tener control de que la primera jugada siempre resulte en un 0
@@ -1357,10 +1334,10 @@ int main (){
 		cronometro.join();
 		//Se mostrara el tiempo solo cuando el usuario haya ganado para evitar que este se sobreescriba en los couts de la main.
 		cout<<endl<<"tiempo: "<<horas<<": "<<minutos<<": "<<segundos<<": ";
-	}
-	//Nivel 2
-	if(nivel==2){
-		thread cronometro(tiempo);
+}
+
+void jugarNivelDos(Jugador ranking[], int n, string nombreJugador, string nombreArchivo){
+	thread cronometro(tiempo);
 		int jugadas=0;
 		int pos_fila;
 		int pos_columna;
@@ -1582,10 +1559,9 @@ int main (){
 		}
 		cronometro.join();
 		cout<<endl<<"tiempo: "<<horas<<": "<<minutos<<": "<<segundos<<": ";
-	}
-	//Nivel 3
-	if(nivel==3){
-		thread cronometro(tiempo);
+}
+void jugarNivelTres(Jugador ranking[], int n, string nombreJugador, string nombreArchivo){
+	thread cronometro(tiempo);
 		int jugadas=0;
 		int pos_fila;
 		int pos_columna;
@@ -1846,5 +1822,48 @@ int main (){
 		}
 		cronometro.join();
 		cout<<endl<<"tiempo: "<<horas<<": "<<minutos<<": "<<segundos<<": ";
-	}
+}
+int main (){
+	//La funcion srand permite crear el numero aleatorio, inicialize con time(NULL) que equivale a los segundos transcurridos desde el 1 de enero 1970, sin meterlo en una variable.
+	//Esta funcion permite colocar tildes.
+	setlocale(LC_ALL, "spanish");
+	srand(time(NULL));
+	Jugador ranking[20];
+	int n = 0;
+	string nombreArchivo = "puntajes.txt";
+	cargarRanking(ranking,n,nombreArchivo);
+	string nombreJugador;
+	cout<<"Ingrese su nombre: ";
+	getline(cin,nombreJugador);
+	int nivel;
+	
+	do{
+		system("cls");
+		cout<<"=======MENÚ BUSCAMINAS============"<<endl<<"Escoja el nivel que desea jugar"<<endl<<"Oprima 1 para fácil (8x8)"<<endl<<"Oprima 2 para medio (16x16)"<<endl<<"Oprima 3 para difícil (16x30)"<<endl<<"Oprima 4 para ver los mejores puntajes"<<endl<<"Oprima 0 para salir"<<endl;
+		cout<<"Escoja un nivel: "<<endl;
+		cin>>nivel;
+		if(nivel==4){
+			mostrarRanking(ranking, 5);
+		}
+		if(nivel==1){
+			jugarNivelUno(ranking, n, nombreJugador, nombreArchivo);
+		}
+		//Nivel 2
+		if(nivel==2){
+			jugarNivelDos(ranking, n, nombreJugador, nombreArchivo);
+		}
+		//Nivel 3
+		if(nivel==3){
+			jugarNivelTres(ranking, n, nombreJugador, nombreArchivo);
+		}
+	}while(nivel!=0);
+	
+	
+	/*while(nivel<1 || nivel>4){
+		cout<<"Solo puede escoger un nivel escribiendo un número del 1 al 4"<<endl<<"Escoja un nivel: "<<endl;
+		cin>>nivel;
+	}*/
+	//la funcion system ("cls"), permite limpiar la consola para la comodidad del usuario
+
+	
 }
